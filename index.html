@@ -23,7 +23,6 @@
 #overlayVideo {
 	width: 1280px;
     height: 720px;
-	background-color: transparent;
 	position: absolute;
 }
 </style>
@@ -39,15 +38,7 @@
     </video>
 </div>
 <script>
-	var video2 = document.querySelector("#overlayVideo");
 	var video = document.querySelector("#videoElement");
-	 
-
-	video2.addEventListener("play", filterEffect, false);
-
-	function filterEffect() {
-    	 renderCanvas(video);
-	}
 
 	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 	 
@@ -57,14 +48,11 @@
 	 
 	function handleVideo(stream) {
 	    video.src = window.URL.createObjectURL(stream);
-		video.play();
-		video2.play();
 	}
 	 
 	function videoError(e) {
 	    // do something
 	}
-}
 </script>
 </body>
 </html>
