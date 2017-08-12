@@ -13,6 +13,7 @@
     width: 500px;
     height: 375px;
     border: 10px #333 solid;
+    position:relative;
 }
 #videoElement {
     width: 500px;
@@ -26,9 +27,13 @@
     <video autoplay="true" id="videoElement">
      
     </video>
+    <video autoplay="true" id="overlayVideo">
+    	
+    </video>
 </div>
 <script>
-	 var video = document.querySelector("#videoElement");
+	var video = document.querySelector("#overlayVideo");
+	var video = document.querySelector("#videoElement");
 	 
 	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 	 
