@@ -10,14 +10,21 @@
 <style>
 #container {
     margin: 0px auto;
-    width: 500px;
-    height: 375px;
+    width: 1280px;
+    height: 720px;
     border: 10px #333 solid;
-    position:relative;
+    position: relative;
 }
 #videoElement {
-    width: 500px;
-    height: 375px;
+    width: 1280px;
+    height: 720px;
+    position: absolute;
+}
+#overlayVideo {
+	width: 1280px;
+    height: 720px;
+	background-color: transparent;
+	position: absolute;
 }
 </style>
 </head>
@@ -28,13 +35,20 @@
      
     </video>
     <video autoplay="true" id="overlayVideo">
-    	
+    	<source src="arctest.webm" type="video/webm">
     </video>
 </div>
 <script>
-	var video = document.querySelector("#overlayVideo");
+	var video2 = document.querySelector("#overlayVideo");
 	var video = document.querySelector("#videoElement");
 	 
+
+	video2.addEventListener("play", filterEffect, false);
+
+	function filterEffect() {
+    	 renderCanvas(video);
+	}
+
 	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 	 
 	if (navigator.getUserMedia) {       
@@ -44,11 +58,13 @@
 	function handleVideo(stream) {
 	    video.src = window.URL.createObjectURL(stream);
 		video.play();
+		video2.play();
 	}
 	 
 	function videoError(e) {
 	    // do something
 	}
+}
 </script>
 </body>
 </html>
