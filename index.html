@@ -10,19 +10,18 @@
 <style>
 #container {
     margin: 0px auto;
-    width: 1280px;
-    height: 720px;
-    border: 10px #333 solid;
+    width: 1600px;
+    height: 900px;
     position: relative;
 }
 #videoElement {
-    width: 1280px;
-    height: 720px;
+    width: 1600px;
+    height: 900px;
     position: absolute;
 }
 #overlayVideo {
-	width: 1280px;
-    height: 720px;
+	width: 1600px;
+    height: 900px;
 	position: absolute;
 }
 </style>
@@ -33,12 +32,24 @@
     <video autoplay="true" id="videoElement">
      
     </video>
-    <video autoplay="false" id="overlayVideo">
-    	<source src="arctest.webm" type="video/webm">
+    <video autoplay="true" id="overlayVideo">
+    	
     </video>
 </div>
 <script>
-	var video = document.querySelector("#videoElement");
+	var cam = document.querySelector("#videoElement");
+	var video = document.querySelector("#overlayVideo");
+	var source = document.createElement('source');
+	video.appendChild(source);
+	play(1);
+
+	var actualVid = 1;
+	var videoEnded = false;
+
+	var aPressed = false;
+	var aPressedOther = false;
+	var bPressed = false;
+	var bPressedOther = false;
 
 	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 	 
@@ -47,21 +58,218 @@
 	}
 	 
 	function handleVideo(stream) {
-	    video.src = window.URL.createObjectURL(stream);
+	    cam.src = window.URL.createObjectURL(stream);
 	}
 	 
 	function videoError(e) {
 	    // do something
 	}
-	
+
+	function playNextVideo(vidNumber) {
+		console.log("playNextVideo()");
+		var button = checkButtons();
+		console.log(button);
+		console.log(vidNumber);
+		if(button == "n") {
+			return;
+		}
+		else {
+			resetButtons();
+			videoEnded = false;
+			switch(vidNumber) {
+				case 1:
+					if(button == "a") {
+						actualVid = 2;
+						play(2);
+					}
+					else if(button == "b") {
+						actualVid = 3;
+						play(3);
+					}
+					break;
+				case 2:
+					actualVid = 4;
+					play(4);
+					break;
+				case 3:
+					actualVid = 4;
+					play(4);
+					break;
+				case 5:
+					if(button == "a") {
+						actualVid = 6;
+						play(6);
+					}
+					else if(button == "b") {
+						actualVid = 55; //"Drängt euch eine Frage"
+						play(55);
+					}
+					break;
+				case 55:
+					if(button == "a") {
+						actualVid = 8;
+						play(8);
+					}
+					else if(button == "b") {
+						actualVid = 9;
+						play(9);
+					}
+					break;
+				case 8:
+					if(button == "a") {
+						actualVid = 10;
+						play(10);
+					}
+					if(button == "b") {
+						actualVid = 13;
+						play(13);
+					}
+					break;
+				case 9:
+					if(button == "a") {
+						actualVid = 11;
+						play(11);
+					}
+					if(button == "b") {
+						actualVid = 16;
+						play(16);
+					}
+					break;
+				case 10:
+					if(button == "a") {
+						actualVid = 11;
+						play(11);
+					}
+					if(button == "b") {
+						actualVid = 16;
+						play(16);
+					}
+					break;
+				case 16:
+					if(button = "a") {
+						actualVid = 17;
+						play(17);
+					}
+					if(button = "b") {
+						actualVid = 18;
+						play(18);
+					}
+					break;
+				case 17:
+					actualVid = 19;
+					play(19);
+					break;
+				case 18:
+					actualVid = 19;
+					play(19);
+					break;
+				case 20:
+					if(button = "a") {
+						actualVid = 24;
+						play(24);
+					}
+					if(button = "b") {
+						actualVid = 21;
+						play(21);
+					}
+					break;
+				case 25:
+					if(button = "a") {
+						actualVid = 26;
+						play(26);
+					}
+					if(button = "b") {
+						actualVid = 28;
+						play(28);
+					}
+					break;
+			}
+		}
+	}
+
+	function play(vidNumber) {
+		var vidName = "./" + vidNumber + ".webm";
+		source.setAttribute("src", vidName);
+		video.load();
+		video.play();
+	}
+
+	function checkButtons() {
+		if(aPressed && aPressedOther) {
+			return "a";
+			alert("Both A");
+		}
+		else if(bPressed && bPressedOther) {
+			return "b";
+			alert("Both B");
+		}
+		else {
+			return "n";
+		}
+	}
+
+	function resetButtons() {
+		aPressed = false;
+		aPressedOther = false;
+		bPressed = false;
+		bPressedOther = false;
+	}
+
+	document.querySelector("#overlayVideo").addEventListener('ended',myHandler,false);
+    function myHandler(e) {
+    	vidNumber = actualVid;
+    	if(vidNumber == 4 || vidNumber == 6 || vidNumber == 7 || vidNumber == 11 || vidNumber == 12 || vidNumber == 13 || vidNumber == 14 || vidNumber == 15 || vidNumber == 19 || vidNumber == 21 || vidNumber == 22 || vidNumber == 24 || vidNumber == 26 || vidNumber == 28 || vidNumber == 29){
+			actualVid++;
+			var vidName = "./" + actualVid + ".webm";
+			source.setAttribute("src", vidName);
+			video.load();
+			video.play();
+		}
+		else if(vidNumber == 23){
+			actualVid = 25;
+			var vidName = "./" + actualVid + ".webm";
+			source.setAttribute("src", vidName);
+			video.load();
+			video.play();
+		}
+		else if(vidNumber == 27){
+			actualVid = 29;
+			var vidName = "./" + actualVid + ".webm";
+			source.setAttribute("src", vidName);
+			video.load();
+			video.play();
+		}
+        videoEnded = true;
+        console.log('video finished playing.');
+    }
+
 	document.addEventListener('keydown', function(event) {
 	    if(event.keyCode == 37) {
-	        alert('Left was pressed');
+	        bPressed = false; 
+	        aPressed = true;
+	        console.log(aPressed + " " + bPressed + " " + aPressedOther + " " + bPressedOther);
+	        playNextVideo(actualVid);
 	    }
 	    else if(event.keyCode == 39) {
-	        alert('Right was pressed');
+	        aPressed = false;
+	        bPressed = true;
+	        console.log(aPressed + " " + bPressed + " " + aPressedOther + " " + bPressedOther);
+	        playNextVideo(actualVid);
+	    }
+	    else if(event.keyCode == 38) {
+	        aPressedOther = true;
+	        bPressedOther = false;
+	        console.log(aPressed + " " + bPressed + " " + aPressedOther + " " + bPressedOther);
+	        playNextVideo(actualVid);
+	    }
+	    else if(event.keyCode == 40) {
+	        aPressedOther = false;
+	        bPressedOther = true;
+	        console.log(aPressed + " " + bPressed + " " + aPressedOther + " " + bPressedOther);
+	        playNextVideo(actualVid);
 	    }
 	});
+
 </script>
 </body>
 </html>
