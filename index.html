@@ -33,7 +33,7 @@
     <video autoplay="true" id="videoElement">
      
     </video>
-    <video autoplay="true" id="overlayVideo">
+    <video autoplay="false" id="overlayVideo">
     	<source src="arctest.webm" type="video/webm">
     </video>
 </div>
@@ -53,6 +53,17 @@
 	function videoError(e) {
 	    // do something
 	}
+
+	function 
+
+	document.addEventListener('keydown', function(event) {
+	    if(event.keyCode == 37) {
+	        alert('Left was pressed');
+	    }
+	    else if(event.keyCode == 39) {
+	        alert('Right was pressed');
+	    }
+	});
 </script>
 </body>
 </html>
