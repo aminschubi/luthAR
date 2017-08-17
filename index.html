@@ -308,7 +308,8 @@
 
 	document.querySelector("#overlayVideo1").addEventListener('ended',myHandler,false);
     function myHandler(e) {
-    	if(actualVid == 4){
+    	vidNumber = actualVid;
+    	if(vidNumber == 4){
     		actualVid = 5;
 			videoPlayersFree[0] = 0;
 			preLoadVideo(6);
@@ -335,7 +336,8 @@
 
     document.querySelector("#overlayVideo2").addEventListener('ended',myHandler,false);
     function myHandler(e) {
-    	if(actualVid == 4){
+    	vidNumber = actualVid;
+    	if(vidNumber == 4){
     		actualVid = 5;
 			videoPlayersFree[0] = 0;
 			preLoadVideo(6);
@@ -362,7 +364,8 @@
 
     document.querySelector("#overlayVideo3").addEventListener('ended',myHandler,false);
     function myHandler(e) {
-    	if(actualVid == 4){
+    	vidNumber = actualVid;
+    	if(vidNumber == 4){
     		actualVid = 5;
 			videoPlayersFree[0] = 0;
 			preLoadVideo(6);
