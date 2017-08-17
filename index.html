@@ -69,9 +69,9 @@
 	var videoPlayers = [video, video2, video3];
 	var videoPlayersFree = [0,0,0];
 
-	video2.style.zIndex = 0;
-	cam.style.zIndex = 1;
-	video.style.zIndex = 2;
+	video2.style.zIndex = "0";
+	cam.style.zIndex = "1";
+	video.style.zIndex = "2";
 	preLoadVideo(1);
 	play(0);
 	preLoadVideo(2);
@@ -107,21 +107,21 @@
 					console.log("Video "+vidNumber+" loaded into Player "+ i);
 					var vidName = "./A" + vidNumber + ".webm";
 					source.setAttribute("src", vidName);
-					video.load();
+					//video.load();
 					break;
 				}
 				else if(i == 1){
 					console.log("Video "+vidNumber+" loaded into Player "+ i);
 					var vidName = "./A" + vidNumber + ".webm";
 					source2.setAttribute("src", vidName);
-					video2.load();
+					//video2.load();
 					break;
 				}
 				else if(i == 2){
 					console.log("Video "+vidNumber+" loaded into Player "+ i);
 					var vidName = "./A" + vidNumber + ".webm";
 					source3.setAttribute("src", vidName);
-					video3.load();
+					//video3.load();
 					break;
 				}
 			}
