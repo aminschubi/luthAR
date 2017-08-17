@@ -269,12 +269,21 @@
 
 	function play(playerNumber) {
 		if(playerNumber == 0){
+			videoPlayers[0].style.zIndex = "2";
+			videoPlayers[1].style.zIndex = "0";
+			videoPlayers[2].style.zIndex = "0";
 			video.play();
 		}
 		else if(playerNumber == 1){
+			videoPlayers[0].style.zIndex = "0";
+			videoPlayers[1].style.zIndex = "2";
+			videoPlayers[2].style.zIndex = "0";
 			video2.play();
 		}
 		else if(playerNumber == 2){
+			videoPlayers[0].style.zIndex = "0";
+			videoPlayers[1].style.zIndex = "0";
+			videoPlayers[2].style.zIndex = "2";
 			video3.play();
 		}
 	}
