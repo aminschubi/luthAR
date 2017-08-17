@@ -170,12 +170,6 @@
 					preLoadVideo(5);
 					play(0);
 					break;
-				case 4:
-					actualVid = 5;
-					videoPlayersFree[0] = 0;
-					preLoadVideo(6);
-					preLoadVideo(55);
-					play(1);
 				case 5:
 					if(button == "a") {
 						actualVid = 6;
@@ -314,14 +308,13 @@
 
 	document.querySelector("#overlayVideo1").addEventListener('ended',myHandler,false);
     function myHandler(e) {
-    	/*vidNumber = actualVid;
-    	if(vidNumber == 4 || vidNumber == 6 || vidNumber == 7 || vidNumber == 11 || vidNumber == 12 || vidNumber == 13 || vidNumber == 14 || vidNumber == 15 || vidNumber == 19 || vidNumber == 21 || vidNumber == 22 || vidNumber == 24 || vidNumber == 26 || vidNumber == 28 || vidNumber == 29){
-			actualVid++;
-			var vidName = "./A" + actualVid + ".webm";
-			source.setAttribute("src", vidName);
-			video.load();
-			video.play();
-		}
+    	if(actualVid == 4){
+    		actualVid = 5;
+			videoPlayersFree[0] = 0;
+			preLoadVideo(6);
+			preLoadVideo(55);
+			play(1);
+    	}
 		else if(vidNumber == 23){
 			actualVid = 25;
 			var vidName = "./A" + actualVid + ".webm";
@@ -335,21 +328,20 @@
 			source.setAttribute("src", vidName);
 			video.load();
 			video.play();
-		}*/
+		}
         videoEnded = true;
         console.log('video finished playing.');
     }
 
     document.querySelector("#overlayVideo2").addEventListener('ended',myHandler,false);
     function myHandler(e) {
-    	/*vidNumber = actualVid;
-    	if(vidNumber == 4 || vidNumber == 6 || vidNumber == 7 || vidNumber == 11 || vidNumber == 12 || vidNumber == 13 || vidNumber == 14 || vidNumber == 15 || vidNumber == 19 || vidNumber == 21 || vidNumber == 22 || vidNumber == 24 || vidNumber == 26 || vidNumber == 28 || vidNumber == 29){
-			actualVid++;
-			var vidName = "./A" + actualVid + ".webm";
-			source2.setAttribute("src", vidName);
-			video2.load();
-			video2.play();
-		}
+    	if(actualVid == 4){
+    		actualVid = 5;
+			videoPlayersFree[0] = 0;
+			preLoadVideo(6);
+			preLoadVideo(55);
+			play(1);
+    	}
 		else if(vidNumber == 23){
 			actualVid = 25;
 			var vidName = "./A" + actualVid + ".webm";
@@ -363,21 +355,20 @@
 			source2.setAttribute("src", vidName);
 			video2.load();
 			video2.play();
-		}*/
+		}
         videoEnded = true;
         console.log('video finished playing.');
     }
 
     document.querySelector("#overlayVideo3").addEventListener('ended',myHandler,false);
     function myHandler(e) {
-    	/*vidNumber = actualVid;
-    	if(vidNumber == 4 || vidNumber == 6 || vidNumber == 7 || vidNumber == 11 || vidNumber == 12 || vidNumber == 13 || vidNumber == 14 || vidNumber == 15 || vidNumber == 19 || vidNumber == 21 || vidNumber == 22 || vidNumber == 24 || vidNumber == 26 || vidNumber == 28 || vidNumber == 29){
-			actualVid++;
-			var vidName = "./A" + actualVid + ".webm";
-			source3.setAttribute("src", vidName);
-			video3.load();
-			video3.play();
-		}
+    	if(actualVid == 4){
+    		actualVid = 5;
+			videoPlayersFree[0] = 0;
+			preLoadVideo(6);
+			preLoadVideo(55);
+			play(1);
+    	}
 		else if(vidNumber == 23){
 			actualVid = 25;
 			var vidName = "./A" + actualVid + ".webm";
@@ -391,7 +382,7 @@
 			source3.setAttribute("src", vidName);
 			video3.load();
 			video3.play();
-		}*/
+		}
         videoEnded = true;
         console.log('video finished playing.');
     }
