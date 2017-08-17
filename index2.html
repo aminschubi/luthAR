@@ -54,11 +54,6 @@
     </video>
 </div>
 <script>
-
-
-	var peer = new Peer('luthtwo', {key: '5oqhzt775rmdvx6r'}); 
-
-
 	var cam = document.querySelector("#videoElement");
 	var video = document.querySelector("#overlayVideo1");
 	var video2 = document.querySelector("#overlayVideo2");
@@ -90,6 +85,33 @@
 	var aPressedOther = false;
 	var bPressed = false;
 	var bPressedOther = false;
+
+	var peer = new Peer('luthtwo', {host: 'localhost', port: 9000}); 
+	var conn = peer.connect('luthone');
+
+	peer.on('connection', function(c) {
+		console.log("connection established!");
+	});
+
+	peer.on('connection', function(conn) {
+	  conn.on('data', function(data){
+	  	console.log("received :" + data);
+	    if(data.toString() == "a"){
+	    	console.log("A WAS PRESSED ON OTHER!");
+	    	window.aPressedOther = true;
+	    	window.bPressedOther = false;
+	    	logStatus();
+	    	window.playNextVideo(window.actualVid);
+	    }
+	    else if(data.toString() == "b"){
+	    	console.log("B WAS PRESSED ON OTHER!");
+	    	window.aPressedOther = false;
+	    	window.bPressedOther = true;
+	    	logStatus();
+	    	window.playNextVideo(window.actualVid);
+	    }
+	  });
+	});
 
 	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 	 
@@ -142,12 +164,10 @@
 		if(videoEnded == true){
 			console.log("playNextVideo()");
 			var button = checkButtons();
-			console.log(button);
-			console.log(vidNumber);
 			if(button == "n") {
 				return;
 			}
-			else {
+			else if(button == "a" || button == "b"){
 				resetButtons();
 				videoEnded = false;
 				switch(vidNumber) {
@@ -344,6 +364,7 @@
 	}
 
 	function resetButtons() {
+		console.log("Button Inputs resetted");
 		aPressed = false;
 		aPressedOther = false;
 		bPressed = false;
@@ -531,31 +552,25 @@
     }
 
 	document.addEventListener('keydown', function(event) {
-	    if(event.keyCode == 37) {
-	        bPressed = false; 
+	    if(event.keyCode == 38) {
 	        aPressed = true;
-	        console.log(aPressed + " " + bPressed + " " + aPressedOther + " " + bPressedOther);
-	        playNextVideo(actualVid);
-	    }
-	    else if(event.keyCode == 39) {
-	        aPressed = false;
-	        bPressed = true;
-	        console.log(aPressed + " " + bPressed + " " + aPressedOther + " " + bPressedOther);
-	        playNextVideo(actualVid);
-	    }
-	    else if(event.keyCode == 38) {
-	        aPressedOther = true;
-	        bPressedOther = false;
-	        console.log(aPressed + " " + bPressed + " " + aPressedOther + " " + bPressedOther);
+	        bPressed = false;
+	        logStatus();
+	        conn.send("a");
 	        playNextVideo(actualVid);
 	    }
 	    else if(event.keyCode == 40) {
-	        aPressedOther = false;
-	        bPressedOther = true;
-	        console.log(aPressed + " " + bPressed + " " + aPressedOther + " " + bPressedOther);
+	        aPressed = false;
+	        bPressed = true;
+	        logStatus();
+	        conn.send("b");
 	        playNextVideo(actualVid);
 	    }
 	});
+
+	function logStatus(){
+		console.log("A1: "+aPressedOther+" B1: "+bPressedOther+" A2: "+aPressed+" B2: "+bPressed);
+	}
 
 </script>
 </body>
