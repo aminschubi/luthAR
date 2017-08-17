@@ -107,6 +107,7 @@
 					console.log("Video "+vidNumber+" loaded into Player "+ i);
 					var vidName = "./A" + vidNumber + ".webm";
 					source.setAttribute("src", vidName);
+					video.load();
 					video.pause();
 					break;
 				}
@@ -114,6 +115,7 @@
 					console.log("Video "+vidNumber+" loaded into Player "+ i);
 					var vidName = "./A" + vidNumber + ".webm";
 					source2.setAttribute("src", vidName);
+					video2.load();
 					video2.pause();
 					break;
 				}
@@ -121,6 +123,7 @@
 					console.log("Video "+vidNumber+" loaded into Player "+ i);
 					var vidName = "./A" + vidNumber + ".webm";
 					source3.setAttribute("src", vidName);
+					video3.load();
 					video3.pause();
 					break;
 				}
@@ -334,7 +337,62 @@
 			video.play();
 		}
         videoEnded = true;
-        videoPlayersFree[actualPlayer] = 0;
+        console.log('video finished playing.');
+    }
+
+    document.querySelector("#overlayVideo2").addEventListener('ended',myHandler,false);
+    function myHandler(e) {
+    	vidNumber = actualVid;
+    	if(vidNumber == 4 || vidNumber == 6 || vidNumber == 7 || vidNumber == 11 || vidNumber == 12 || vidNumber == 13 || vidNumber == 14 || vidNumber == 15 || vidNumber == 19 || vidNumber == 21 || vidNumber == 22 || vidNumber == 24 || vidNumber == 26 || vidNumber == 28 || vidNumber == 29){
+			actualVid++;
+			var vidName = "./A" + actualVid + ".webm";
+			source2.setAttribute("src", vidName);
+			video2.load();
+			video2.play();
+		}
+		else if(vidNumber == 23){
+			actualVid = 25;
+			var vidName = "./A" + actualVid + ".webm";
+			source2.setAttribute("src", vidName);
+			video2.load();
+			video2.play();
+		}
+		else if(vidNumber == 27){
+			actualVid = 29;
+			var vidName = "./A" + actualVid + ".webm";
+			source2.setAttribute("src", vidName);
+			video2.load();
+			video2.play();
+		}
+        videoEnded = true;
+        console.log('video finished playing.');
+    }
+
+    document.querySelector("#overlayVideo3").addEventListener('ended',myHandler,false);
+    function myHandler(e) {
+    	vidNumber = actualVid;
+    	if(vidNumber == 4 || vidNumber == 6 || vidNumber == 7 || vidNumber == 11 || vidNumber == 12 || vidNumber == 13 || vidNumber == 14 || vidNumber == 15 || vidNumber == 19 || vidNumber == 21 || vidNumber == 22 || vidNumber == 24 || vidNumber == 26 || vidNumber == 28 || vidNumber == 29){
+			actualVid++;
+			var vidName = "./A" + actualVid + ".webm";
+			source3.setAttribute("src", vidName);
+			video3.load();
+			video3.play();
+		}
+		else if(vidNumber == 23){
+			actualVid = 25;
+			var vidName = "./A" + actualVid + ".webm";
+			source3.setAttribute("src", vidName);
+			video3.load();
+			video3.play();
+		}
+		else if(vidNumber == 27){
+			actualVid = 29;
+			var vidName = "./A" + actualVid + ".webm";
+			source3.setAttribute("src", vidName);
+			video3.load();
+			video3.play();
+		}
+        videoEnded = true;
         console.log('video finished playing.');
     }
 
