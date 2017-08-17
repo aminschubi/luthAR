@@ -86,8 +86,8 @@
 	var bPressed = false;
 	var bPressedOther = false;
 
-	var peer = new Peer('luthtwo', {key:"5oqhzt775rmdvx6r",port:9000}); 
-	var conn = peer.connect('luthone');
+	var peer = new Peer('luth2', {host:"luthserver.herokuapp.com", secure:true, port:443, key: 'peerjs'}); 
+	var conn = peer.connect('luth1');
 
 	peer.on('connection', function(c) {
 		console.log("connection established!");
