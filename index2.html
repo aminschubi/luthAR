@@ -35,6 +35,11 @@
     height: 1060px;
 	position: absolute;
 }
+#overlayContainer {
+	width: 1900px;
+    height: 1060px;
+	position: absolute;
+}
 </style>
 </head>
   
@@ -52,12 +57,17 @@
     <video autoplay="false" id="overlayVideo3">
     	
     </video>
+    <div id="overlayContainer">
+    	<img id="image">
+    </div>
 </div>
 <script>
 	var cam = document.querySelector("#videoElement");
 	var video = document.querySelector("#overlayVideo1");
 	var video2 = document.querySelector("#overlayVideo2");
 	var video3 = document.querySelector("#overlayVideo3");
+	var overlay = document.querySelector("#image");
+	var overlayC = document.querySelector("#overlayContainer");
 	var source = document.createElement('source');
 	var source2 = document.createElement('source');
 	var source3 = document.createElement('source');
@@ -66,6 +76,7 @@
 	video3.appendChild(source3);
 
 	var actualPlayer = 0;
+	var actualVid = 1;
 
 	var videoPlayers = [video, video2, video3];
 	var videoPlayersFree = [0,0,0];
@@ -73,12 +84,12 @@
 	video2.style.zIndex = "0";
 	cam.style.zIndex = "1";
 	video.style.zIndex = "2";
+	overlayC.style.zIndex = "3";
 	preLoadVideo(1);
 	play(0);
 	preLoadVideo(2);
-	//preLoadVideo(3);
+	preLoadVideo(3);
 
-	var actualVid = 1;
 	var videoEnded = false;
 
 	var aPressed = false;
@@ -100,6 +111,7 @@
 	    	console.log("A WAS PRESSED ON OTHER!");
 	    	window.aPressedOther = true;
 	    	window.bPressedOther = false;
+	    	loadOverlay(actualVid);
 	    	logStatus();
 	    	window.playNextVideo(window.actualVid);
 	    }
@@ -107,6 +119,7 @@
 	    	console.log("B WAS PRESSED ON OTHER!");
 	    	window.aPressedOther = false;
 	    	window.bPressedOther = true;
+	    	loadOverlay(actualVid);
 	    	logStatus();
 	    	window.playNextVideo(window.actualVid);
 	    }
@@ -365,6 +378,7 @@
 	}
 
 	function play(playerNumber) {
+		loadOverlay(actualVid);
 		if(playerNumber == 0){
 			videoPlayers[0].style.zIndex = "2";
 			videoPlayers[1].style.zIndex = "0";
@@ -405,6 +419,27 @@
 		aPressedOther = false;
 		bPressed = false;
 		bPressedOther = false;
+	}
+
+	function loadOverlay(vidNumber) {
+		var imageSource = "./overlays/O" + vidNumber;
+		
+		if(aPressed)
+			imageSource += "A2";
+		else if(aPressedOther)
+			imageSource += "A1";
+		else if(!aPressed && !aPressedOther)
+			imageSource += "A0";
+
+		if(bPressed)
+			imageSource += "B2";
+		else if(bPressedOther)
+			imageSource += "B1";
+		else if(!bPressed && !bPressedOther)
+			imageSource += "B0"
+
+		imageSource += ".png";
+		overlay.src = imageSource;
 	}
 
 	document.querySelector("#overlayVideo1").addEventListener('ended',myHandler,false);
@@ -770,6 +805,7 @@
 	        bPressed = false;
 	        logStatus();
 	        conn.send("a");
+	        loadOverlay(actualVid);
 	        playNextVideo(actualVid);
 	    }
 	    else if(event.keyCode == 40) {
@@ -777,6 +813,7 @@
 	        bPressed = true;
 	        logStatus();
 	        conn.send("b");
+	        loadOverlay(actualVid);
 	        playNextVideo(actualVid);
 	    }
 	});
