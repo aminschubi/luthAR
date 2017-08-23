@@ -130,7 +130,9 @@
 	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
 	 
 	if (navigator.getUserMedia) {       
-	    navigator.getUserMedia({video: {optional: [{minwidth:1920},{minheight:1080}]}, audio:true}, handleVideo, videoError);
+	    navigator.getUserMedia({video: 
+	    	width: {min: 1920, ideal: 1920, max: 1920},
+  			height: {min: 1080, ideal: 1080, max: 1080}, audio:true}, handleVideo, videoError);
 	}
 	 
 	function handleVideo(stream) {
