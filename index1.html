@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src = "./peer.js" type="text/javascript"></script>
+<meta charset="utf-8">
+<meta content="stuff, to, help, search, engines, not" name="keywords">
+<meta content="What this page is about." name="description">
+<meta content="LuthAR" name="title">
+<title>LuthAR HTML5</title>
+  
+<style>
+#container {
+    margin: 0px auto;
+    width: 1900px;
+    height: 1060px;
+    position: relative;
+}
+#videoElement {
+    width: 1900px;
+    height: 1060px;
+    position: absolute;
+}
+#overlayVideo1 {
+	width: 1900px;
+    height: 1060px;
+	position: absolute;
+}
+#overlayVideo2 {
+	width: 1900px;
+    height: 1060px;
+	position: absolute;
+}
+#overlayVideo3 {
+	width: 1900px;
+    height: 1060px;
+	position: absolute;
+}
+#overlayContainer {
+	width: 1900px;
+    height: 1060px;
+	position: absolute;
+}
+</style>
+</head>
+  
+<body>
+<div id="container">
+    <video autoplay="true" id="videoElement">
+     
+    </video>
+    <video autoplay="false" id="overlayVideo1">
+    	
+    </video>
+    <video autoplay="false" id="overlayVideo2">
+    	
+    </video>
+    <video autoplay="false" id="overlayVideo3">
+    	
+    </video>
+    <div id="overlayContainer">
+    	<img id="image">
+    </div>
+</div>
+<script>
+	var cam = document.querySelector("#videoElement");
+	var video = document.querySelector("#overlayVideo1");
+	var video2 = document.querySelector("#overlayVideo2");
+	var video3 = document.querySelector("#overlayVideo3");
+	var overlay = document.querySelector("#image");
+	var overlayC = document.querySelector("#overlayContainer");
+	var source = document.createElement("source");
+	var source2 = document.createElement("source");
+	var source3 = document.createElement("source");
+	video.appendChild(source);
+	video2.appendChild(source2);
+	video3.appendChild(source3);
+
+	var actualPlayer = 0;
+	var actualVid = 1;
+
+	var videoPlayers = [video, video2, video3];
+	var videoPlayersFree = [0,0,0];
+
+	video2.style.zIndex = "0";
+	cam.style.zIndex = "1";
+	video.style.zIndex = "2";
+	overlayC.style.zIndex = "3";
+	preLoadVideo(1);
+	play(0);
+	preLoadVideo(2);
+	preLoadVideo(3);
+
+	var videoEnded = false;
+
+	var aPressed = false;
+	var aPressedOther = false;
+	var bPressed = false;
+	var bPressedOther = false;
+
+	var peer = new Peer('luth1', {host:"luthserver.herokuapp.com", secure:true, port:443, key: 'peerjs'});
+	var conn = peer.connect('luth2');
+
+	peer.on('connection', function(c) {
+		console.log("connection established!");
+		conn = peer.connect('luth2');
+	});
+
+	peer.on('connection', function(conn) {
+	  conn.on('data', function(data){
+	  	console.log("received :" + data);
+	    if(data.toString() == "a"){
+	    	console.log("A WAS PRESSED ON OTHER!");
+	    	window.aPressedOther = true;
+	    	window.bPressedOther = false;
+	    	loadOverlay(actualVid);
+	    	logStatus();
+	    	window.playNextVideo(window.actualVid);
+	    }
+	    else if(data.toString() == "b"){
+	    	console.log("B WAS PRESSED ON OTHER!");
+	    	window.aPressedOther = false;
+	    	window.bPressedOther = true;
+	    	loadOverlay(actualVid);
+	    	logStatus();
+	    	window.playNextVideo(window.actualVid);
+	    }
+	  });
+	});
+
+	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
+	 
+	if (navigator.getUserMedia) {       
+	    navigator.getUserMedia({video: 
+	    	width: {min: 1280, ideal: 1920, max: 1920},
+  			height: {min: 720, ideal: 1080, max: 1080}, audio:true}, handleVideo, videoError);
+	}
+	 
+	function handleVideo(stream) {
+	    cam.src = window.URL.createObjectURL(stream);
+	}
+	 
+	function videoError(e) {
+	    // do something
+	}
+
+	function preLoadVideo(vidNumber) {
+		for (var i = 0; i < 3; i++) {
+			if(videoPlayersFree[i] == 0){
+				videoPlayersFree[i] = 1;
+				if(i == 0){
+					console.log("Video "+vidNumber+" loaded into Player "+ i);
+					var vidName = "./A" + vidNumber + ".webm";
+					source.setAttribute("src", vidName);
+					video.load();
+					video.pause();
+					break;
+				}
+				else if(i == 1){
+					console.log("Video "+vidNumber+" loaded into Player "+ i);
+					var vidName = "./A" + vidNumber + ".webm";
+					source2.setAttribute("src", vidName);
+					video2.load();
+					video2.pause();
+					break;
+				}
+				else if(i == 2){
+					console.log("Video "+vidNumber+" loaded into Player "+ i);
+					var vidName = "./A" + vidNumber + ".webm";
+					source3.setAttribute("src", vidName);
+					video3.load();
+					video3.pause();
+					break;
+				}
+			}
+			else{}
+		}
+	}
+
+	function playNextVideo(vidNumber) {
+		if(videoEnded == true){
+			console.log("playNextVideo()");
+			var button = checkButtons();
+			console.log(button);
+			console.log(vidNumber);
+			if(button == "n") {
+				return;
+			}
+			else if(button == "a" || button == "b"){
+				resetButtons();
+				videoEnded = false;
+				switch(vidNumber) {
+					case 1:
+						if(button == "a") {
+							actualVid = 2;
+							videoPlayersFree[0] = 0;
+							videoPlayersFree[2] = 0;
+							preLoadVideo(4);
+							play(1);
+						}
+						else if(button == "b") {
+							actualVid = 3;
+							videoPlayersFree[0] = 0;
+							videoPlayersFree[1] = 0;
+							preLoadVideo(4);
+							play(2);
+						}
+						break;
+					case 2:
+						actualVid = 4;
+						videoPlayersFree[1] = 0;
+						preLoadVideo(5);
+						play(0);
+						break;
+					case 3:
+						actualVid = 4;
+						videoPlayersFree[1] = 0;
+						preLoadVideo(5);
+						play(0);
+						break;
+					case 5:
+						if(button == "a") {
+							actualVid = 6;
+							videoPlayersFree[1] = 0;
+							videoPlayersFree[2] = 0;
+							preLoadVideo(7);
+							play(0);
+						}
+						else if(button == "b") {
+							actualVid = 55;
+							videoPlayersFree[1] = 0;
+							videoPlayersFree[0] = 0;
+							preLoadVideo(8);
+							preLoadVideo(9);
+							play(2);
+						}
+						break;
+					case 55:
+						if(button == "a") {
+							actualVid = 8;
+							videoPlayersFree[1] = 0;
+							videoPlayersFree[2] = 0;
+							preLoadVideo(10);
+							preLoadVideo(13);
+							play(0);
+						}
+						else if(button == "b") {
+							actualVid = 9;
+							videoPlayersFree[0] = 0;
+							videoPlayersFree[2] = 0;
+							preLoadVideo(11);
+							preLoadVideo(16);
+							play(1);
+						}
+						break;
+					case 8:
+						if(button == "a") {
+							actualVid = 10;
+							videoPlayersFree[0] = 0;
+							videoPlayersFree[2] = 0;
+							preLoadVideo(11);
+							preLoadVideo(16);
+							play(1);
+						}
+						if(button == "b") {
+							actualVid = 13;
+							videoPlayersFree[1] = 0;
+							preLoadVideo(14);
+							videoPlayersFree[0] = 0;
+							play(2);
+						}
+						break;
+					case 9:
+						if(button == "a") {
+							actualVid = 11;
+							videoPlayersFree[1] = 0;
+							videoPlayersFree[2] = 0;
+							preLoadVideo(12);
+							play(0);
+						}
+						if(button == "b") {
+							actualVid = 16;
+							videoPlayersFree[0] = 0;
+							videoPlayersFree[1] = 0;
+							preLoadVideo(17);
+							preLoadVideo(18);
+							play(2);
+						}
+						break;
+					case 10:
+						if(button == "a") {
+							actualVid = 11;
+							videoPlayersFree[1] = 0;
+							videoPlayersFree[2] = 0;
+							preLoadVideo(12);
+							play(0);
+						}
+						if(button == "b") {
+							actualVid = 16;
+							videoPlayersFree[0] = 0;
+							videoPlayersFree[1] = 0;
+							preLoadVideo(17);
+							preLoadVideo(18);
+							play(2);
+						}
+						break;
+					case 16:
+						if(button = "a") {
+							actualVid = 17;
+							videoPlayersFree[2] = 0;
+							videoPlayersFree[1] = 0;
+							preLoadVideo(19);
+							play(0);
+						}
+						if(button = "b") {
+							actualVid = 18;
+							videoPlayersFree[2] = 0;
+							videoPlayersFree[0] = 0;
+							preLoadVideo(19);
+							play(1);
+						}
+						break;
+					case 17:
+						actualVid = 19;
+						preLoadVideo(20);
+						videoPlayersFree[0] = 0;
+						play(1);
+						break;
+					case 18:
+						actualVid = 19;
+						preLoadVideo(20);
+						videoPlayersFree[1] = 0;
+						play(0);
+						break;
+					case 20:
+						if(button = "a") {
+							actualVid = 24;
+							videoPlayersFree[2] = 0;
+							preLoadVideo(25);
+							videoPlayersFree[1] = 0;
+							play(0);
+						}
+						if(button = "b") {
+							actualVid = 21;
+							videoPlayersFree[2] = 0;
+							videoPlayersFree[0] = 0;
+							preLoadVideo(22);
+							play(1);
+						}
+						break;
+					case 21:
+						if(button == "a"){
+							actualVid = 22;
+							videoPlayersFree[1] = 0;
+							preLoadVideo(23);
+							play(0);
+						}
+						else if(button == "b"){
+							actualVid = 22;
+							videoPlayersFree[1] = 0;
+							preLoadVideo(23);
+							play(0);
+						}
+						break;
+					case 25:
+						if(button = "a") {
+							actualVid = 26;
+							videoPlayersFree[2] = 0;
+							videoPlayersFree[1] = 0;
+							preLoadVideo(27);
+							play(0);
+						}
+						if(button = "b") {
+							actualVid = 28;
+							videoPlayersFree[2] = 0;
+							videoPlayersFree[0] = 0;
+							preLoadVideo(29);
+							play(1);
+						}
+						break;
+				}
+			}
+		}
+	}
+
+	function play(playerNumber) {
+		loadOverlay(actualVid);
+		if(playerNumber == 0){
+			videoPlayers[0].style.zIndex = "2";
+			videoPlayers[1].style.zIndex = "0";
+			videoPlayers[2].style.zIndex = "0";
+			video.play();
+		}
+		else if(playerNumber == 1){
+			videoPlayers[0].style.zIndex = "0";
+			videoPlayers[1].style.zIndex = "2";
+			videoPlayers[2].style.zIndex = "0";
+			video2.play();
+		}
+		else if(playerNumber == 2){
+			videoPlayers[0].style.zIndex = "0";
+			videoPlayers[1].style.zIndex = "0";
+			videoPlayers[2].style.zIndex = "2";
+			video3.play();
+		}
+	}
+
+	function checkButtons() {
+		if(aPressed && aPressedOther) {
+			return "a";
+			alert("Both A");
+		}
+		else if(bPressed && bPressedOther) {
+			return "b";
+			alert("Both B");
+		}
+		else {
+			return "n";
+		}
+	}
+
+	function resetButtons() {
+		aPressed = false;
+		aPressedOther = false;
+		bPressed = false;
+		bPressedOther = false;
+	}
+
+	function loadOverlay(vidNumber) {
+		var imageSource = "./overlays/O" + vidNumber;
+		
+		if(aPressed)
+			imageSource += "A1";
+		else if(aPressedOther)
+			imageSource += "A2";
+		else if(!aPressed && !aPressedOther)
+			imageSource += "A0";
+
+		if(bPressed)
+			imageSource += "B1";
+		else if(bPressedOther)
+			imageSource += "B2";
+		else if(!bPressed && !bPressedOther)
+			imageSource += "B0"
+
+		imageSource += ".png";
+		overlay.src = imageSource;
+	}
+
+	document.querySelector("#overlayVideo1").addEventListener('ended',myHandler,false);
+    function myHandler(e) {
+    	videoEnded = true;
+        console.log('video('+actualVid+') finished playing.');
+    	vidNumber = actualVid;
+    	if(vidNumber == 4){
+    		videoEnded = false;
+    		actualVid = 5;
+			videoPlayersFree[0] = 0;
+			preLoadVideo(6);
+			preLoadVideo(55);
+			play(1);
+    	}
+    	else if(vidNumber == 6){
+    		videoEnded = false;
+    		actualVid = 7;
+    		videoPlayersFree[0] = 0;
+    		preLoadVideo(8);
+    		play(1)
+    	}
+    	else if(vidNumber == 7){
+    		videoEnded = false;
+    		actualVid = 8;
+    		videoPlayersFree[1] = 0;
+    		preLoadVideo(10);
+    		preLoadVideo(13);
+    		play(0);
+    	}
+    	else if(vidNumber == 11){
+    		videoEnded = false;
+    		actualVid = 12;
+    		videoPlayersFree[0] = 0;
+    		preLoadVideo(13);
+    		play(1);
+    	}
+    	else if(vidNumber == 12){
+    		videoEnded = false;
+    		actualVid = 13;
+    		videoPlayersFree[1] = 0;
+    		preLoadVideo(14);
+    		play(0);
+       	}
+       	else if(vidNumber == 13){
+       		videoEnded = false;
+       		actualVid = 14;
+       		videoPlayersFree[0] = 0;
+       		videoPlayersFree[2] = 0;
+       		preLoadVideo(15);
+       		play(1);
+       	}
+       	else if(vidNumber == 14){
+       		videoEnded = false;
+       		actualVid = 15;
+       		preLoadVideo(16);
+       		videoPlayersFree[1] = 0;
+       		play(0);
+       	}
+       	else if(vidNumber == 19){
+       		videoEnded = false;
+       		actualVid = 20;
+       		videoPlayersFree[0] = 0;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(24);
+       		preLoadVideo(21);
+       		play(2);
+       	}
+       	else if(vidNumber == 22){
+       		videoEnded = false;
+       		actualVid = 23;
+       		preLoadVideo(25);
+       		videoPlayersFree[0] = 0;
+       		play(1);
+       	}
+       	else if(vidNumber == 23){
+       		videoEnded = false;
+       		actualVid = 25;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(26);
+       		preLoadVideo(28);
+       		play(2);
+       	}
+       	else if(vidNumber == 24){
+       		videoEnded = false;
+       		actualVid = 25;
+       		videoPlayersFree[0] = 0;
+       		preLoadVideo(26);
+       		preLoadVideo(28);
+       		play(2);
+       	}
+       	else if(vidNumber == 26){
+       		videoEnded = false;
+       		actualVid = 27;
+       		videoPlayersFree[0] = 0;
+       		preLoadVideo(29);
+       		play(1);
+       	}
+       	else if(vidNumber == 27){
+       		videoEnded = false;
+       		actualVid = 29;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(30);
+       		play(0);
+       	}
+       	else if(vidNumber == 28){
+       		videoEnded = false;
+       		actualVid = 29;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(30);
+       		play(0);
+       	}
+       	else if(vidNumber == 29){
+       		videoEnded = false;
+       		actualVid = 30;
+       		videoPlayersFree[0] = 0;
+       		play(1);
+       	}
+		playNextVideo(actualVid);
+    }
+
+    document.querySelector("#overlayVideo2").addEventListener('ended',myHandler,false);
+    function myHandler(e) {
+    	videoEnded = true;
+        console.log('video('+actualVid+') finished playing.');
+    	vidNumber = actualVid;
+    	if(vidNumber == 4){
+    		videoEnded = false;
+    		actualVid = 5;
+			videoPlayersFree[0] = 0;
+			preLoadVideo(6);
+			preLoadVideo(55);
+			play(1);
+    	}
+    	else if(vidNumber == 6){
+    		videoEnded = false;
+    		actualVid = 7;
+    		videoPlayersFree[0] = 0;
+    		preLoadVideo(8);
+    		play(1)
+    	}
+    	else if(vidNumber == 7){
+    		videoEnded = false;
+    		actualVid = 8;
+    		videoPlayersFree[1] = 0;
+    		preLoadVideo(10);
+    		preLoadVideo(13);
+    		play(0);
+    	}
+    	else if(vidNumber == 11){
+    		videoEnded = false;
+    		actualVid = 12;
+    		videoPlayersFree[0] = 0;
+    		preLoadVideo(13);
+    		play(1);
+    	}
+    	else if(vidNumber == 12){
+    		videoEnded = false;
+    		actualVid = 13;
+    		videoPlayersFree[1] = 0;
+    		preLoadVideo(14);
+    		play(0);
+       	}
+       	else if(vidNumber == 13){
+       		videoEnded = false;
+       		actualVid = 14;
+       		videoPlayersFree[0] = 0;
+       		videoPlayersFree[2] = 0;
+       		preLoadVideo(15);
+       		play(1);
+       	}
+       	else if(vidNumber == 14){
+       		videoEnded = false;
+       		actualVid = 15;
+       		preLoadVideo(16);
+       		videoPlayersFree[1] = 0;
+       		play(0);
+       	}
+       	else if(vidNumber == 19){
+       		videoEnded = false;
+       		actualVid = 20;
+       		videoPlayersFree[0] = 0;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(24);
+       		preLoadVideo(21);
+       		play(2);
+       	}
+       	else if(vidNumber == 22){
+       		videoEnded = false;
+       		actualVid = 23;
+       		preLoadVideo(25);
+       		videoPlayersFree[0] = 0;
+       		play(1);
+       	}
+       	else if(vidNumber == 23){
+       		videoEnded = false;
+       		actualVid = 25;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(26);
+       		preLoadVideo(28);
+       		play(2);
+       	}
+       	else if(vidNumber == 24){
+       		videoEnded = false;
+       		actualVid = 25;
+       		videoPlayersFree[0] = 0;
+       		preLoadVideo(26);
+       		preLoadVideo(28);
+       		play(2);
+       	}
+       	else if(vidNumber == 26){
+       		videoEnded = false;
+       		actualVid = 27;
+       		videoPlayersFree[0] = 0;
+       		preLoadVideo(29);
+       		play(1);
+       	}
+       	else if(vidNumber == 27){
+       		videoEnded = false;
+       		actualVid = 29;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(30);
+       		play(0);
+       	}
+       	else if(vidNumber == 28){
+       		videoEnded = false;
+       		actualVid = 29;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(30);
+       		play(0);
+       	}
+       	else if(vidNumber == 29){
+       		videoEnded = false;
+       		actualVid = 30;
+       		videoPlayersFree[0] = 0;
+       		play(1);
+       	}
+		playNextVideo(actualVid);
+    }
+
+    document.querySelector("#overlayVideo3").addEventListener('ended',myHandler,false);
+    function myHandler(e) {
+    	videoEnded = true;
+        console.log('video('+actualVid+') finished playing.');
+    	vidNumber = actualVid;
+    	if(vidNumber == 4){
+    		videoEnded = false;
+    		actualVid = 5;
+			videoPlayersFree[0] = 0;
+			preLoadVideo(6);
+			preLoadVideo(55);
+			play(1);
+    	}
+    	else if(vidNumber == 6){
+    		videoEnded = false;
+    		actualVid = 7;
+    		videoPlayersFree[0] = 0;
+    		preLoadVideo(8);
+    		play(1)
+    	}
+    	else if(vidNumber == 7){
+    		videoEnded = false;
+    		actualVid = 8;
+    		videoPlayersFree[1] = 0;
+    		preLoadVideo(10);
+    		preLoadVideo(13);
+    		play(0);
+    	}
+    	else if(vidNumber == 11){
+    		videoEnded = false;
+    		actualVid = 12;
+    		videoPlayersFree[0] = 0;
+    		preLoadVideo(13);
+    		play(1);
+    	}
+    	else if(vidNumber == 12){
+    		videoEnded = false;
+    		actualVid = 13;
+    		videoPlayersFree[1] = 0;
+    		preLoadVideo(14);
+    		play(0);
+       	}
+       	else if(vidNumber == 13){
+       		videoEnded = false;
+       		actualVid = 14;
+       		videoPlayersFree[0] = 0;
+       		videoPlayersFree[2] = 0;
+       		preLoadVideo(15);
+       		play(1);
+       	}
+       	else if(vidNumber == 14){
+       		videoEnded = false;
+       		actualVid = 15;
+       		preLoadVideo(16);
+       		videoPlayersFree[1] = 0;
+       		play(0);
+       	}
+       	else if(vidNumber == 19){
+       		videoEnded = false;
+       		actualVid = 20;
+       		videoPlayersFree[0] = 0;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(24);
+       		preLoadVideo(21);
+       		play(2);
+       	}
+       	else if(vidNumber == 22){
+       		videoEnded = false;
+       		actualVid = 23;
+       		preLoadVideo(25);
+       		videoPlayersFree[0] = 0;
+       		play(1);
+       	}
+       	else if(vidNumber == 23){
+       		videoEnded = false;
+       		actualVid = 25;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(26);
+       		preLoadVideo(28);
+       		play(2);
+       	}
+       	else if(vidNumber == 24){
+       		videoEnded = false;
+       		actualVid = 25;
+       		videoPlayersFree[0] = 0;
+       		preLoadVideo(26);
+       		preLoadVideo(28);
+       		play(2);
+       	}
+       	else if(vidNumber == 26){
+       		videoEnded = false;
+       		actualVid = 27;
+       		videoPlayersFree[0] = 0;
+       		preLoadVideo(29);
+       		play(1);
+       	}
+       	else if(vidNumber == 27){
+       		videoEnded = false;
+       		actualVid = 29;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(30);
+       		play(0);
+       	}
+       	else if(vidNumber == 28){
+       		videoEnded = false;
+       		actualVid = 29;
+       		videoPlayersFree[1] = 0;
+       		preLoadVideo(30);
+       		play(0);
+       	}
+       	else if(vidNumber == 29){
+       		videoEnded = false;
+       		actualVid = 30;
+       		videoPlayersFree[0] = 0;
+       		play(1);
+       	}
+		playNextVideo(actualVid);
+    }
+
+	document.addEventListener('keydown', function(event) {
+	    //Client 1 
+	    if(event.keyCode == 37) {
+	        bPressed = false; 
+	        aPressed = true;
+	        logStatus();
+	        conn.send("a");
+	        loadOverlay(actualVid);
+	        playNextVideo(actualVid);
+	    }
+	    else if(event.keyCode == 39) {
+	        aPressed = false;
+	        bPressed = true;
+	        logStatus();
+	        conn.send("b");
+	        loadOverlay(actualVid);
+	        playNextVideo(actualVid);
+	    }
+	});
+
+	function logStatus(){
+		console.log("A1: "+aPressed+" B1: "+bPressed+" A2: "+aPressedOther+" B2: "+bPressedOther);
+	}
+
+</script>
+</body>
+</html>
