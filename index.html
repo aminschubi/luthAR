@@ -207,18 +207,6 @@
 							play(2);
 						}
 						break;
-					case 2:
-						actualVid = 4;
-						videoPlayersFree[1] = 0;
-						preLoadVideo(5);
-						play(0);
-						break;
-					case 3:
-						actualVid = 4;
-						videoPlayersFree[1] = 0;
-						preLoadVideo(5);
-						play(0);
-						break;
 					case 5:
 						if(button == "a") {
 							actualVid = 6;
@@ -457,7 +445,19 @@
     	videoEnded = true;
         console.log('video('+actualVid+') finished playing.');
     	vidNumber = actualVid;
-    	if(vidNumber == 4){
+    	if(vidNumber == 2){
+			actualVid = 4;
+			videoPlayersFree[1] = 0;
+			preLoadVideo(5);
+			play(0);
+		}
+		else if(vidNumber == 3){
+			actualVid = 4;
+			videoPlayersFree[1] = 0;
+			preLoadVideo(5);
+			play(0);
+		}    	
+		else if(vidNumber == 4){
     		videoEnded = false;
     		actualVid = 5;
 			videoPlayersFree[0] = 0;
