@@ -4,9 +4,12 @@
   "start_url": "/index.html",
   "display": "standalone",
   "orientation": "landscape",
-  "sockets": {
+  "permissions": [{
+    "sockets": {
       "tcpServer" : {
         "listen": "aminschubi.github.io:55000"
+      }
     }
-  }
+  }]
+  
 }
