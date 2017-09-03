@@ -3,5 +3,10 @@
   "name": "LuthAR",
   "start_url": "/index.html",
   "display": "standalone",
-  "orientation": "landscape"
+  "orientation": "landscape",
+  "sockets": {
+      "tcpServer" : {
+        "listen": "aminschubi.github.io:55000"
+    }
+  }
 }
