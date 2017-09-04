@@ -92,7 +92,7 @@
 
 	//WebSocket Initialisation
 	var fourPlayers = false;
-	var connection = new WebSocket('ws://lutharwebsockets.herokuapp.com/');
+	var connection = new WebSocket('wss://lutharwebsockets.herokuapp.com/');
 
 	connection.onmessage = function (e) {
   		console.log('Server: ' + e.data);

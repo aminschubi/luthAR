@@ -91,7 +91,7 @@
 
 //WebSocket Initialisation
 	var fourPlayers = false;
-	var connection = new WebSocket('ws://lutharwebsockets.herokuapp.com/');
+	var connection = new WebSocket('wss://lutharwebsockets.herokuapp.com/');
 
 	connection.onmessage = function (e) {
   		console.log('Server: ' + e.data);
@@ -106,6 +106,9 @@
   			var uid3 = e.data.substring(31,45);
   			var uid4 = e.data.substring(45,59);
   			uids = [uid1, uid2, uid3, uid4];
+  			for(var i = 0; i < 4; i++){
+  				console.log(uids[i]);
+  			}
   		}
 	};
 
