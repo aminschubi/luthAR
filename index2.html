@@ -75,6 +75,10 @@
 	video2.appendChild(source2);
 	video3.appendChild(source3);
 
+	//Blue, Green, Yellow, Red
+	var colors = [0,0,0,0];
+	var uids = ["","","",""];
+
 	var actualPlayer = 0;
 	var actualVid = 1;
 
@@ -88,18 +92,31 @@
 
 	//WebSocket Initialisation
 	var fourPlayers = false;
-	//var connection = new WebSocket('ws://html5rocks.websocket.org/echo');
+	var connection = new WebSocket('ws://lutharwebsockets.herokuapp.com/');
 
-	/*connection.onmessage = function (e) {
+	connection.onmessage = function (e) {
   		console.log('Server: ' + e.data);
   		if(e.data == "ready")
   			fourPlayers = true;
+  		else if(e.data.substring(0,4) == "ids2"){
+
+  		}
+  		else if(e.data.substring(0,3) == "id2"){
+  			var uid1 = e.data.substring(3,17);
+  			var uid2 = e.data.substring(17, 31);
+  			var uid3 = e.data.substring(31,45);
+  			var uid4 = e.data.substring(45,59);
+  			uids = [uid1, uid2, uid3, uid4];
+  		}
 	};
 
-	while(!fourPlayers){
-		connection.send("try");
-	}*/
+	var timer = setInterval(function()
+		{ connection.send("check2"); }, 
+		3000);
 
+	while(!fourPlayers){}
+
+	clearInterval(timer);
 
 	preLoadVideo(1);
 	play(0);
