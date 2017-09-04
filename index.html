@@ -101,6 +101,7 @@
 			play(0);
 			preLoadVideo(2);
 			preLoadVideo(3);
+			clearInterval(timer);
   		}
   		else if(e.data.substring(0,4) == "ids1"){
 
@@ -122,8 +123,6 @@
 		3000);
 
 	overlayC.src = "overlays/start.png";
-
-	clearInterval(timer);
 
 	
 
