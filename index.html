@@ -95,8 +95,13 @@
 
 	connection.onmessage = function (e) {
   		console.log('Server: ' + e.data);
-  		if(e.data == "ready")
+  		if(e.data == "ready"){
   			fourPlayers = true;
+  			preLoadVideo(1);
+			play(0);
+			preLoadVideo(2);
+			preLoadVideo(3);
+  		}
   		else if(e.data.substring(0,4) == "ids1"){
 
   		}
@@ -116,16 +121,11 @@
 		{ connection.send("check1"); }, 
 		3000);
 
-	overöayC.src = "overlays/start.png";
-
-	while(!fourPlayers){}
+	overlayC.src = "overlays/start.png";
 
 	clearInterval(timer);
 
-	preLoadVideo(1);
-	play(0);
-	preLoadVideo(2);
-	preLoadVideo(3);
+	
 
 	var videoEnded = false;
 
