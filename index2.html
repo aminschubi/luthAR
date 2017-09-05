@@ -96,32 +96,34 @@
 
 	connection.onmessage = function (e) {
   		console.log('Server: ' + e.data);
-  		if(e.data == "ready")
+  		if(e.data == "ready"){
   			fourPlayers = true;
-  		else if(e.data.substring(0,4) == "ids2"){
+  			preLoadVideo(1);
+			play(0);
+			preLoadVideo(2);
+			preLoadVideo(3);
+			clearInterval(timer);
+  		}
+  		else if(e.data.substring(0,4) == "ids1"){
 
   		}
-  		else if(e.data.substring(0,3) == "id2"){
+  		else if(e.data.substring(0,3) == "id1"){
   			var uid1 = e.data.substring(3,17);
   			var uid2 = e.data.substring(17, 31);
   			var uid3 = e.data.substring(31,45);
   			var uid4 = e.data.substring(45,59);
   			uids = [uid1, uid2, uid3, uid4];
+  			for(var i = 0; i < 4; i++){
+  				console.log(uids[i]);
+  			}
   		}
 	};
 
 	var timer = setInterval(function()
-		{ connection.send("check2"); }, 
+		{ connection.send("check1"); }, 
 		3000);
 
-	while(!fourPlayers){}
-
-	clearInterval(timer);
-
-	preLoadVideo(1);
-	play(0);
-	preLoadVideo(2);
-	preLoadVideo(3);
+	overlay.src = "overlays/start.png";
 
 	var videoEnded = false;
 
