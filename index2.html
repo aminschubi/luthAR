@@ -104,10 +104,10 @@
 			preLoadVideo(3);
 			clearInterval(timer);
   		}
-  		else if(e.data.substring(0,4) == "ids1"){
+  		else if(e.data.substring(0,4) == "ids2"){
 
   		}
-  		else if(e.data.substring(0,3) == "id1"){
+  		else if(e.data.substring(0,3) == "id2"){
   			var uid1 = e.data.substring(3,17);
   			var uid2 = e.data.substring(17, 31);
   			var uid3 = e.data.substring(31,45);
@@ -120,7 +120,7 @@
 	};
 
 	var timer = setInterval(function()
-		{ connection.send("check1"); }, 
+		{ connection.send("check2"); }, 
 		3000);
 
 	overlay.src = "overlays/start.png";
