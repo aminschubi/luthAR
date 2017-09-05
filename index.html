@@ -114,7 +114,7 @@
   		if(e.data == "ready"){
   			fourPlayers = true;
   			source4.setAttribute("src", "A0.webm");
-  			tutorial.play();
+  			tutorial.load();
 			clearInterval(timer);
   		}
   		else if(e.data.substring(0,4) == "ids1"){
