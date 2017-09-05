@@ -86,7 +86,7 @@
 	var uids = ["","","",""];
 
 	var actualPlayer = 0;
-	var actualVid = 1;
+	var actualVid = 0;
 
 	var videoPlayers = [video, video2, video3];
 	var videoPlayersFree = [0,0,0];
@@ -104,10 +104,8 @@
   		console.log('Server: ' + e.data);
   		if(e.data == "ready"){
   			fourPlayers = true;
-  			preLoadVideo(1);
-			play(0);
-			preLoadVideo(2);
-			preLoadVideo(3);
+  			overlayC.style.zIndex = "1";
+  			play(0);
 			clearInterval(timer);
   		}
   		else if(e.data.substring(0,4) == "ids2"){
@@ -130,6 +128,7 @@
 		3000);
 
 	overlay.src = "overlays/start.png";
+	preLoadVideo(0);
 
 	var videoEnded = false;
 
@@ -483,7 +482,16 @@
 	videoEnded = true;
     console.log('video('+actualVid+') finished playing.');
 	vidNumber = actualVid;
-	if(vidNumber == 2){
+	if(vidNumber == 0){
+		actualVid = 1;
+		videoPlayersFree[0] = 0;
+		overlayC.style.zIndex = "3";
+		preLoadVideo(1);
+		play(0);
+		preLoadVideo(2);
+		preLoadVideo(3);
+	}
+	else if(vidNumber == 2){
 		actualVid = 4;
 		videoPlayersFree[1] = 0;
 		preLoadVideo(5);
