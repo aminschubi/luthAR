@@ -42,7 +42,9 @@
 	left:200px;
 }
 #overlayVideoTutorial {
-
+	width: 1900px;
+    height: 1060px;
+	position: absolute;
 }
 #overlayContainer {
 	width: 1900px;
@@ -66,7 +68,7 @@
     <video autoplay="false" id="overlayVideo3">
     	
     </video>
-    <video autoplay="false" id="overlayVideo4">
+    <video autoplay="false" id="overlayVideoTutorial">
     	
     </video>
     <div id="overlayContainer">
@@ -78,7 +80,7 @@
 	var video = document.querySelector("#overlayVideo1");
 	var video2 = document.querySelector("#overlayVideo2");
 	var video3 = document.querySelector("#overlayVideo3");
-	var tutorial = document.querySelector("#overlayVideo4");
+	var tutorial = document.querySelector("#overlayVideoTutorial");
 	var overlay = document.querySelector("#image");
 	var overlayC = document.querySelector("#overlayContainer");
 	var source = document.createElement("source");
