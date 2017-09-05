@@ -627,6 +627,8 @@
 	document.querySelector("#overlayVideo4").addEventListener('ended',endedTutorial,false);
 
 	function endedTutorial(e){
+		actualVid = 1;
+		tutorial.style.zIndex = 0;
 		preLoadVideo(1);
 		play(0);
 		preLoadVideo(2);

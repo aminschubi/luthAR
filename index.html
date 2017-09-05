@@ -629,11 +629,11 @@
 
 	function endedTutorial(e){
 		actualVid = 1;
+		tutorial.style.zIndex = 0;
 		preLoadVideo(1);
 		play(0);
 		preLoadVideo(2);
 		preLoadVideo(3);
-		tutorial.style.zIndex = 0;
 	}
 
 	document.addEventListener('keydown', function(event) {
