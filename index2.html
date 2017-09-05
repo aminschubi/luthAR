@@ -41,6 +41,11 @@
 	top:-5px;
 	left:108px;
 }
+#overlayVideoTutorial {
+	width: 1900px;
+    height: 1060px;
+	position: absolute;
+}
 #overlayContainer {
 	width: 1900px;
     height: 1060px;
@@ -63,6 +68,9 @@
     <video autoplay="false" id="overlayVideo3">
     	
     </video>
+    <video autoplay="false" id="overlayVideo4">
+    	
+    </video>
     <div id="overlayContainer">
     	<img id="image">
     </div>
@@ -72,29 +80,33 @@
 	var video = document.querySelector("#overlayVideo1");
 	var video2 = document.querySelector("#overlayVideo2");
 	var video3 = document.querySelector("#overlayVideo3");
+	var tutorial = document.querySelector("#overlayVideo4");
 	var overlay = document.querySelector("#image");
 	var overlayC = document.querySelector("#overlayContainer");
-	var source = document.createElement('source');
-	var source2 = document.createElement('source');
-	var source3 = document.createElement('source');
+	var source = document.createElement("source");
+	var source2 = document.createElement("source");
+	var source3 = document.createElement("source");
+	var source4 = document.createElement("source");
 	video.appendChild(source);
 	video2.appendChild(source2);
 	video3.appendChild(source3);
+	tutorial.appendChild(source4);
 
 	//Blue, Green, Yellow, Red
 	var colors = [0,0,0,0];
 	var uids = ["","","",""];
 
 	var actualPlayer = 0;
-	var actualVid = 0;
+	var actualVid = 1;
 
 	var videoPlayers = [video, video2, video3];
 	var videoPlayersFree = [0,0,0];
 
 	video2.style.zIndex = "0";
 	cam.style.zIndex = "1";
-	video.style.zIndex = "0";
+	video.style.zIndex = "2";
 	overlayC.style.zIndex = "3";
+	tutorial.style.zIndex = "4";
 
 	//WebSocket Initialisation
 	var fourPlayers = false;
@@ -104,8 +116,8 @@
   		console.log('Server: ' + e.data);
   		if(e.data == "ready"){
   			fourPlayers = true;
-  			overlayC.style.zIndex = "1";
-  			play(0);
+  			source4.setAttribute("src", "A0.webm");
+  			tutorial.play();
 			clearInterval(timer);
   		}
   		else if(e.data.substring(0,4) == "ids2"){
@@ -128,7 +140,6 @@
 		3000);
 
 	overlay.src = "overlays/start.png";
-	preLoadVideo(0);
 
 	var videoEnded = false;
 
@@ -482,16 +493,7 @@
 	videoEnded = true;
     console.log('video('+actualVid+') finished playing.');
 	vidNumber = actualVid;
-	if(vidNumber == 0){
-		actualVid = 1;
-		videoPlayersFree[0] = 0;
-		overlayC.style.zIndex = "3";
-		preLoadVideo(1);
-		play(0);
-		preLoadVideo(2);
-		preLoadVideo(3);
-	}
-	else if(vidNumber == 2){
+	if(vidNumber == 2){
 		actualVid = 4;
 		videoPlayersFree[1] = 0;
 		preLoadVideo(5);
@@ -617,6 +619,16 @@
 	playNextVideo(actualVid);
 }
    
+
+	document.querySelector("#overlayVideo4").addEventListener('ended',endedTutorial,false);
+
+	function endedTutorial(e){
+		preLoadVideo(1);
+		play(0);
+		preLoadVideo(2);
+		preLoadVideo(3);
+		tutorial.style.zIndex = 0;
+	}
 
 	document.addEventListener('keydown', function(event) {
 	    if(event.keyCode == 38) {
