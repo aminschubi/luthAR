@@ -465,19 +465,23 @@
 	function loadOverlay(vidNumber) {
 		var imageSource = "./overlays/O" + vidNumber;
 		
-		if(aPressed)
-			imageSource += "A2";
-		else if(aPressedOther)
+		if(aPressed && aPressedOther)
+			imageSource += "A12";
+		else if(aPressed)
 			imageSource += "A1";
+		else if(aPressedOther)
+			imageSource += "A2";
 		else if(!aPressed && !aPressedOther)
 			imageSource += "A0";
 
-		if(bPressed)
-			imageSource += "B2";
-		else if(bPressedOther)
+		if(bPressed && bPressedOther)
+			imageSource += "B12";
+		else if(bPressed)
 			imageSource += "B1";
+		else if(bPressedOther)
+			imageSource += "B2";
 		else if(!bPressed && !bPressedOther)
-			imageSource += "B0"
+			imageSource += "B0";
 
 		imageSource += ".png";
 		overlay.src = imageSource;

@@ -465,23 +465,23 @@
 	function loadOverlay(vidNumber) {
 		var imageSource = "./overlays/O" + vidNumber;
 		
-		if(aPressed)
+		if(aPressed && aPressedOther)
+			imageSource += "A12";
+		else if(aPressed)
 			imageSource += "A1";
 		else if(aPressedOther)
 			imageSource += "A2";
 		else if(!aPressed && !aPressedOther)
 			imageSource += "A0";
-		else if(aPressed && aPressedOther)
-			imageSource += "A12";
 
-		if(bPressed)
+		if(bPressed && bPressedOther)
+			imageSource += "B12";
+		else if(bPressed)
 			imageSource += "B1";
 		else if(bPressedOther)
 			imageSource += "B2";
 		else if(!bPressed && !bPressedOther)
 			imageSource += "B0";
-		else if(bPressed && bPressedOther)
-			imageSource += "B12";
 
 		imageSource += ".png";
 		overlay.src = imageSource;
@@ -626,6 +626,7 @@
 	document.querySelector("#overlayVideo4").addEventListener('ended',endedTutorial,false);
 
 	function endedTutorial(e){
+		actualVid = 1;
 		preLoadVideo(1);
 		play(0);
 		preLoadVideo(2);
