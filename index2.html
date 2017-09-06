@@ -116,6 +116,7 @@
   		if(e.data == "ready"){
   			source4.setAttribute("src", "A0.webm");
   			tutorial.load();
+  			tutorial.play();
 			clearInterval(timer);
   		}
   		else if(e.data.substring(0,4) == "ids2"){
@@ -649,7 +650,7 @@
 }
    
 
-	document.querySelector("#overlayVideo4").addEventListener('ended',endedTutorial,false);
+	document.querySelector("#overlayVideoTutorial").addEventListener('ended',endedTutorial,false);
 
 	function endedTutorial(e){
 		actualVid = 1;
