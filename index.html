@@ -108,13 +108,11 @@
 	tutorial.style.zIndex = "4";
 
 //WebSocket Initialisation
-	var fourPlayers = false;
 	var connection = new WebSocket('wss://lutharwebsockets.herokuapp.com/');
 
 	connection.onmessage = function (e) {
   		console.log('Server: ' + e.data);
   		if(e.data == "ready"){
-  			fourPlayers = true;
   			source4.setAttribute("src", "A0.webm");
   			tutorial.load();
 			clearInterval(timer);
@@ -192,6 +190,36 @@
 	 
 	function videoError(e) {
 	    // do something
+	}
+
+	function restart(){
+		colors = [0,0,0,0];
+		uids = ["","","",""];
+
+		actualPlayer = 0;
+		actualVid = 1;
+
+		videoPlayers = [video, video2, video3];
+		videoPlayersFree = [0,0,0];
+
+		video2.style.zIndex = "0";
+		cam.style.zIndex = "1";
+		video.style.zIndex = "2";
+		overlayC.style.zIndex = "3";
+		tutorial.style.zIndex = "4";
+
+		timer = setInterval(function()
+		{ connection.send("check1"); }, 
+		3000);
+
+		overlay.src = "overlays/start.png";
+
+		videoEnded = false;
+
+		aPressed = false;
+		aPressedOther = false;
+		bPressed = false;
+		bPressedOther = false;
 	}
 
 	function preLoadVideo(vidNumber) {
@@ -613,14 +641,11 @@
 	   		videoEnded = false;
 	   		actualVid = 29;
 	   		videoPlayersFree[1] = 0;
-	   		preLoadVideo(30);
+	   		//preLoadVideo(30);
 	   		play(0);
 	   	}
 	   	else if(vidNumber == 29){
-	   		videoEnded = false;
-	   		actualVid = 30;
-	   		videoPlayersFree[0] = 0;
-	   		play(1);
+	   		restart();
 	   	}
 		playNextVideo(actualVid);
 	}
