@@ -292,10 +292,10 @@
 						break;
 					case 5:
 						if(button == "a") {
-							actualVid = 6;
+							actualVid = 7;
 							videoPlayersFree[1] = 0;
 							videoPlayersFree[2] = 0;
-							preLoadVideo(7);
+							preLoadVideo(8);
 							play(0);
 						}
 						else if(button == "b") {
@@ -328,11 +328,11 @@
 					case 8:
 						if(button == "a") {
 							actualVid = 10;
-							videoPlayersFree[0] = 0;
+							videoPlayersFree[1] = 0;
 							videoPlayersFree[2] = 0;
 							preLoadVideo(11);
 							preLoadVideo(16);
-							play(1);
+							play(0);
 						}
 						if(button == "b") {
 							actualVid = 13;
@@ -362,10 +362,10 @@
 					case 10:
 						if(button == "a") {
 							actualVid = 11;
-							videoPlayersFree[1] = 0;
+							videoPlayersFree[0] = 0;
 							videoPlayersFree[2] = 0;
 							preLoadVideo(12);
-							play(0);
+							play(1);
 						}
 						if(button == "b") {
 							actualVid = 16;
@@ -553,24 +553,17 @@
 			videoEnded = false;
 			actualVid = 5;
 			videoPlayersFree[0] = 0;
-			preLoadVideo(6);
+			preLoadVideo(7);
 			preLoadVideo(55);
 			play(1);
-		}
-		else if(vidNumber == 6){
-			videoEnded = false;
-			actualVid = 7;
-			videoPlayersFree[0] = 0;
-			preLoadVideo(8);
-			play(1)
 		}
 		else if(vidNumber == 7){
 			videoEnded = false;
 			actualVid = 8;
-			videoPlayersFree[1] = 0;
+			videoPlayersFree[0] = 0;
 			preLoadVideo(10);
 			preLoadVideo(13);
-			play(0);
+			play(1);
 		}
 		else if(vidNumber == 11){
 			videoEnded = false;
