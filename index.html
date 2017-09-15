@@ -62,7 +62,10 @@
     </video>
     <video autoplay="false" id="overlayVideo3">
     	
-    </video>
+	</video>
+	<video autoplay="false" id="overlayVideoIdle">
+    	
+	</video>
     <div id="overlayContainer">
     	<img id="image">
     </div>
@@ -72,14 +75,17 @@
 	var video = document.querySelector("#overlayVideo1");
 	var video2 = document.querySelector("#overlayVideo2");
 	var video3 = document.querySelector("#overlayVideo3");
+	var videoIdle = document.querySelector("#overlayVideoIdle");
 	var overlay = document.querySelector("#image");
 	var overlayC = document.querySelector("#overlayContainer");
 	var source = document.createElement("source");
 	var source2 = document.createElement("source");
 	var source3 = document.createElement("source");
+	var source4 = document.createElement("source");
 	video.appendChild(source);
 	video2.appendChild(source2);
 	video3.appendChild(source3);
+	videoIdle.appendChild(source4);
 
 	var colors = [0,0,0,0];
 	var uids = ["","","",""];
@@ -94,14 +100,18 @@
 	cam.style.zIndex = "1";
 	video.style.zIndex = "2";
 	overlayC.style.zIndex = "3";
+	videoIdle.style.zIndex = "0";
 
-//WebSocket Initialisation
+	//WebSocket Initialisation
 	var connection = new WebSocket('wss://lutharwebsockets.herokuapp.com/');
 
 	connection.onmessage = function (e) {
   		console.log('Server: ' + e.data);
   		if(e.data == "ready"){
 			clearInterval(timer);
+			videoIdle.setAttribute("src", "idle.webm");
+			videoIdle.load();
+			videoIdle.pause();
 			preLoadVideo(1);
 			play(0);
 			preLoadVideo(2);
@@ -255,6 +265,9 @@
 			}
 			else if(button == "a" || button == "b"){
 				resetButtons();
+				videoIdle.style.zIndex = "0";
+				videoIdle.load();
+				videoIdle.pause();
 				videoEnded = false;
 				switch(vidNumber) {
 					case 1:
@@ -514,7 +527,8 @@
 
     function myHandler(e) {
 		videoEnded = true;
-	    console.log('video('+actualVid+') finished playing.');
+		console.log('video('+actualVid+') finished playing.');
+		loadOverlay(actualVid);
 		vidNumber = actualVid;
 		if(vidNumber == 2){
 			actualVid = 4;
@@ -635,8 +649,18 @@
 	   	}
 	   	else if(vidNumber == 29){
 	   		restart();
-	   	}
-		playNextVideo(actualVid);
+		}
+		else{
+			videoIdle.style.zIndex = "4";
+			videoIdle.play();
+		}
+		//playNextVideo(actualVid);
+	}
+
+	document.querySelector("#overlayVideoIdle").addEventListener('ended',myIdleHandler,false);
+
+	function myIdleHandler(e){
+		videoIdle.load();
 	}
 
 	document.addEventListener('keydown', function(event) {
