@@ -329,11 +329,11 @@
 					case 8:
 						if(button == "a") {
 							actualVid = 10;
-							videoPlayersFree[1] = 0;
+							videoPlayersFree[0] = 0;
 							videoPlayersFree[2] = 0;
 							preLoadVideo(11);
 							preLoadVideo(16);
-							play(0);
+							play(1);
 						}
 						if(button == "b") {
 							actualVid = 13;
@@ -592,17 +592,17 @@
 		else if(vidNumber == 13){
 			videoEnded = false;
 			actualVid = 14;
-			videoPlayersFree[1] = 0;
+			videoPlayersFree[0] = 0;
 			videoPlayersFree[2] = 0;
 			preLoadVideo(15);
-			play(0);
+			play(1);
 		}
 		else if(vidNumber == 14){
 			videoEnded = false;
 			actualVid = 15;
 			preLoadVideo(16);
-			videoPlayersFree[0] = 0;
-			play(1);
+			videoPlayersFree[1] = 0;
+			play(0);
 		}
 		else if(vidNumber == 19){
 			videoEnded = false;
