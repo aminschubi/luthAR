@@ -41,11 +41,6 @@
 	top:-113px;
 	left:200px;
 }
-#overlayVideoTutorial {
-	width: 1900px;
-    height: 1060px;
-	position: absolute;
-}
 #overlayContainer {
 	width: 1900px;
     height: 1060px;
@@ -68,9 +63,6 @@
     <video autoplay="false" id="overlayVideo3">
     	
     </video>
-    <video autoplay="false" id="overlayVideoTutorial">
-    	
-    </video>
     <div id="overlayContainer">
     	<img id="image">
     </div>
@@ -80,17 +72,14 @@
 	var video = document.querySelector("#overlayVideo1");
 	var video2 = document.querySelector("#overlayVideo2");
 	var video3 = document.querySelector("#overlayVideo3");
-	var tutorial = document.querySelector("#overlayVideoTutorial");
 	var overlay = document.querySelector("#image");
 	var overlayC = document.querySelector("#overlayContainer");
 	var source = document.createElement("source");
 	var source2 = document.createElement("source");
 	var source3 = document.createElement("source");
-	var source4 = document.createElement("source");
 	video.appendChild(source);
 	video2.appendChild(source2);
 	video3.appendChild(source3);
-	tutorial.appendChild(source4);
 
 	var colors = [0,0,0,0];
 	var uids = ["","","",""];
@@ -105,7 +94,6 @@
 	cam.style.zIndex = "1";
 	video.style.zIndex = "2";
 	overlayC.style.zIndex = "3";
-	tutorial.style.zIndex = "4";
 
 //WebSocket Initialisation
 	var connection = new WebSocket('wss://lutharwebsockets.herokuapp.com/');
@@ -113,10 +101,11 @@
 	connection.onmessage = function (e) {
   		console.log('Server: ' + e.data);
   		if(e.data == "ready"){
-  			source4.setAttribute("src", "A0.webm");
-  			tutorial.load();
-  			tutorial.play();
 			clearInterval(timer);
+			preLoadVideo(1);
+			play(0);
+			preLoadVideo(2);
+			preLoadVideo(3);
   		}
   		else if(e.data.substring(0,4) == "ids1"){
 
@@ -207,7 +196,6 @@
 		cam.style.zIndex = "1";
 		video.style.zIndex = "2";
 		overlayC.style.zIndex = "3";
-		tutorial.style.zIndex = "4";
 
 		timer = setInterval(function()
 		{ connection.send("check1"); }, 
@@ -649,17 +637,6 @@
 	   		restart();
 	   	}
 		playNextVideo(actualVid);
-	}
-
-	document.querySelector("#overlayVideoTutorial").addEventListener('ended',endedTutorial,false);
-
-	function endedTutorial(e){
-		actualVid = 1;
-		tutorial.style.zIndex = 0;
-		preLoadVideo(1);
-		play(0);
-		preLoadVideo(2);
-		preLoadVideo(3);
 	}
 
 	document.addEventListener('keydown', function(event) {
