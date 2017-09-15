@@ -457,6 +457,7 @@
 
 	function play(playerNumber) {
 		//loadOverlay(actualVid);
+		overlayC.style.zIndex = "0";
 		if(playerNumber == 0){
 			videoPlayers[0].style.zIndex = "2";
 			videoPlayers[1].style.zIndex = "0";
@@ -521,6 +522,7 @@
 			imageSource += "B0";
 
 		imageSource += ".png";
+		overlayC.style.zIndex = "3";
 		overlay.src = imageSource;
 	}
 
