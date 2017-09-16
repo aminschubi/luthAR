@@ -116,6 +116,7 @@
   		console.log('Server: ' + e.data);
   		if(e.data == "ready"){
 			clearInterval(timer);
+			overlay.src = "#";
 			videoIdle.setAttribute("src", "idle.webm");
 			videoIdle.load();
 			videoIdle.pause();
@@ -141,7 +142,11 @@
 
 	var timer = setInterval(function()
 		{ connection.send("check1"); }, 
-		3000);
+	3000);
+
+	var timer2 = setInterval(function()
+		{ connection.send("keepIndex1Alive!"); }, 
+	3000);
 
 	overlay.src = "overlays/start.png";
 
