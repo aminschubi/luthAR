@@ -110,7 +110,7 @@
 	videoIdle.style.zIndex = "0";
 
 	//WebSocket Initialisation
-	var connection = new WebSocket('wss://lutharwebsockets.herokuapp.com/');
+	var connection = new WebSocket('wss://lutharwebsocketserver.herokuapp.com/');
 
 	connection.onmessage = function (e) {
   		console.log('Server: ' + e.data);
@@ -157,7 +157,7 @@
 	var bPressed = false;
 	var bPressedOther = false;
 
-	var peer = new Peer('luth1', {host:"luthserver.herokuapp.com", secure:true, port:443, key: 'peerjs'});
+	var peer = new Peer('luth1', {host:"lutharpeerserver.herokuapp.com", secure:true, port:443, key: 'peerjs'});
 	var conn = peer.connect('luth2');
 
 	peer.on('connection', function(c) {
@@ -408,18 +408,6 @@
 							play(1);
 						}
 						break;
-					case 17:
-						actualVid = 19;
-						preLoadVideo(20);
-						videoPlayersFree[0] = 0;
-						play(1);
-						break;
-					case 18:
-						actualVid = 19;
-						preLoadVideo(20);
-						videoPlayersFree[1] = 0;
-						play(0);
-						break;
 					case 20:
 						if(button = "a") {
 							actualVid = 24;
@@ -608,6 +596,20 @@
 			preLoadVideo(16);
 			videoPlayersFree[1] = 0;
 			play(0);
+		}
+		else if(vidNumber == 17){
+			actualVid = 19;
+			preLoadVideo(20);
+			videoPlayersFree[0] = 0;
+			play(1);
+			break;
+		}
+		else if(vidNumber == 18){
+			actualVid = 19;
+			preLoadVideo(20);
+			videoPlayersFree[1] = 0;
+			play(0);
+			break;
 		}
 		else if(vidNumber == 19){
 			videoEnded = false;
