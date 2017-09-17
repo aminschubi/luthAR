@@ -665,7 +665,13 @@
 			play(0);
 		}
 		else if(vidNumber == 29){
-			restart();
+			overlay.src = "endscreen.png";
+			var timerend = setInterval(function()
+			{ 
+				restart();
+				clearInterval(timerend);
+			}, 
+			5000);
 		}
 		else{
 			videoIdle.style.zIndex = "4";
