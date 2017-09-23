@@ -21,32 +21,32 @@
     position: absolute;
 }
 #overlayVideo1 {
-	width: calc(1920px * (.75));
-    height: calc(1080px * (.75));
+	width: calc(1920px * (.6));
+    height: calc(1080px * (.6));
 	position: absolute;
-	top:-5px;
-	left:108px;
+	top:40px;
+	left:420px;
 }
 #overlayVideo2 {
-	width: calc(1920px * (.75));
-    height: calc(1080px * (.75));
+	width: calc(1920px * (.6));
+    height: calc(1080px * (.6));
 	position: absolute;
-	top:-5px;
-	left:108px;
+	top:40px;
+	left:420px;
 }
 #overlayVideo3 {
-	width: calc(1920px * (.75));
-    height: calc(1080px * (.75));
+	width: calc(1920px * (.6));
+    height: calc(1080px * (.6));
 	position: absolute;
-	top:-5px;
-	left:108px;
+	top:40px;
+	left:420px;
 }
 #overlayVideoIdle {
-	width: calc(1920px * (.75));
-    height: calc(1080px * (.75));
+	width: calc(1920px * (.6));
+    height: calc(1080px * (.6));
 	position: absolute;
-	top:-5px;
-	left:108px;
+	top:40px;
+	left:420px;
 }
 #overlayContainer {
 	width: 1920px;
@@ -74,7 +74,12 @@
     	
 	</video>
     <div id="overlayContainer">
-    	<img id="image">
+		<img id="image">
+		<img id="cardspaces">
+		<img id="card1">
+		<img id="card2">
+		<img id="card3">
+		<img id="card4">
     </div>
 </div>
 <script>
@@ -84,6 +89,7 @@
 	var video3 = document.querySelector("#overlayVideo3");
 	var videoIdle = document.querySelector("#overlayVideoIdle");
 	var overlay = document.querySelector("#image");
+	var cardspace = document.querySelector("#cardspaces");
 	var overlayC = document.querySelector("#overlayContainer");
 	var source = document.createElement("source");
 	var source2 = document.createElement("source");
@@ -97,6 +103,8 @@
 	//Blue, Green, Yellow, Red
 	var colors = [5,5,5,5];
 	var uids = ["","","",""];
+
+	var started = false;
 
 	var actualPlayer = 0;
 	var actualVid = 1;
@@ -115,7 +123,8 @@
 
 	connection.onmessage = function (e) {
   		console.log('Server: ' + e.data);
-  		if(e.data == "ready"){
+  		if(e.data == "ready" && started == false){
+			started = true;
 			clearInterval(timer);
 			overlay.src = "#";
 			videoIdle.setAttribute("src", "idle.webm");
@@ -149,7 +158,8 @@
 		{ connection.send("keepIndex2Alive!"); }, 
 	3000);
 
-	overlay.src = "overlays/start.png";
+	overlay.src = "overlays/Login/01.png";
+	cardspace.sry = "overlays/Login/02.png";
 
 	var videoEnded = false;
 
@@ -188,20 +198,27 @@
 	});
 
 	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-	 
-	if (navigator.getUserMedia) {       
-	    navigator.getUserMedia({video:{
-	    	 width: { ideal: 1920 },
-        	height: { ideal: 1080 }}, audio:true}, handleVideo, videoError);
-	}
-	 
-	function handleVideo(stream) {
+
+	navigator.getUserMedia({video:{
+			width: { ideal: 1920 },
+			height: { ideal: 1080 }},
+			 audio:true}, function(stream){
+				var call = peer.call('luth1', stream);
+				call.on('stream', function(remoteStream){
+					console.log("Stream Conected!");
+					cam.src = window.URL.createObjectURL(remoteStream);
+				})
+			 }, function(err){
+					console.log("stream failed!");
+			 });
+
+	/*function handleVideo(stream) {
 	    cam.src = window.URL.createObjectURL(stream);
 	}
 	 
 	function videoError(e) {
 	    // do something
-	}
+	}*/
 
 	function restart(){
 		colors = [0,0,0,0];
@@ -209,6 +226,8 @@
 
 		actualPlayer = 0;
 		actualVid = 1;
+
+		started == false;
 
 		videoPlayers = [video, video2, video3];
 		videoPlayersFree = [0,0,0];
@@ -230,6 +249,8 @@
 		aPressedOther = false;
 		bPressed = false;
 		bPressedOther = false;
+
+		console.log("Game restarted!");
 	}
 
 	function preLoadVideo(vidNumber) {
@@ -543,12 +564,14 @@
 		if(vidNumber == 2){
 			actualVid = 4;
 			videoPlayersFree[1] = 0;
+			videoPlayersFree[2] = 0;
 			preLoadVideo(5);
 			play(0);
 		}
 		else if(vidNumber == 3){
 			actualVid = 4;
 			videoPlayersFree[1] = 0;
+			videoPlayersFree[2] = 0;
 			preLoadVideo(5);
 			play(0);
 		}    	

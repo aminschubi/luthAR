@@ -21,32 +21,32 @@
     position: absolute;
 }
 #overlayVideo1 {
-	width: calc(1920px * (.9));
-    height: calc(1080px * (.9));
+	width: calc(1920px * (.53));
+    height: calc(1080px * (.53));
 	position: absolute;
-	top:-113px;
-	left:200px;
+	top:11px;
+	left:435px;
 }
 #overlayVideo2 {
-	width: calc(1920px * (.9));
-    height: calc(1080px * (.9));
+	width: calc(1920px * (.53));
+    height: calc(1080px * (.53));
 	position: absolute;
-	top:-113px;
-	left:200px;
+	top:11px;
+	left:435px;
 }
 #overlayVideo3 {
-	width: calc(1920px * (.9));
-    height: calc(1080px * (.9));
+	width: calc(1920px * (.53));
+    height: calc(1080px * (.53));
 	position: absolute;
-	top:-113px;
-	left:200px;
+	top:11px;
+	left:435px;
 }
 #overlayVideoIdle {
-	width: calc(1920px * (.9));
-    height: calc(1080px * (.9));
+	width: calc(1920px * (.53));
+    height: calc(1080px * (.53));
 	position: absolute;
-	top:-113px;
-	left:200px;
+	top:11px;
+	left:435px;
 }
 #overlayContainer {
 	width: 1920px;
@@ -74,7 +74,12 @@
     	
 	</video>
     <div id="overlayContainer">
-    	<img id="image">
+		<img id="image">
+		<img id="cardspaces">
+		<img id="card1">
+		<img id="card2">
+		<img id="card3">
+		<img id="card4">
     </div>
 </div>
 <script>
@@ -84,6 +89,7 @@
 	var video3 = document.querySelector("#overlayVideo3");
 	var videoIdle = document.querySelector("#overlayVideoIdle");
 	var overlay = document.querySelector("#image");
+	var cardspace = document.querySelector("#cardspaces");
 	var overlayC = document.querySelector("#overlayContainer");
 	var source = document.createElement("source");
 	var source2 = document.createElement("source");
@@ -103,6 +109,8 @@
 	var videoPlayers = [video, video2, video3];
 	var videoPlayersFree = [0,0,0];
 
+	var started = false;
+
 	video2.style.zIndex = "0";
 	cam.style.zIndex = "1";
 	video.style.zIndex = "2";
@@ -114,7 +122,8 @@
 
 	connection.onmessage = function (e) {
   		console.log('Server: ' + e.data);
-  		if(e.data == "ready"){
+  		if(e.data == "ready" && started == false){
+			started = true;
 			clearInterval(timer);
 			overlay.src = "#";
 			videoIdle.setAttribute("src", "idle.webm");
@@ -148,7 +157,8 @@
 		{ connection.send("keepIndex1Alive!"); }, 
 	3000);
 
-	overlay.src = "overlays/start.png";
+	overlay.src = "overlays/Login/01.png";
+	cardspace.src = "overlays/Login/02.png";
 
 	var videoEnded = false;
 
@@ -187,24 +197,29 @@
 	  });
 	});
 
+	peer.on('call', function(call){
+		navigator.getUserMedia({video:{
+			width: { ideal: 1920 },
+			height: { ideal: 1080 }},
+			 audio:true}, function(stream){
+				 call.answer(stream);
+				 call.on('stream', function(remoteStream){
+					 console.log("Stream Connected!");
+					cam.src = window.URL.createObjectURL(remoteStream);
+				 });
+				}, function(error){
+					console.log('cam failed');
+				});
+	});
+
 	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-	 
-	if (navigator.getUserMedia) {       
-	    navigator.getUserMedia({video:{
-	    	 width: { ideal: 1920 },
-        	height: { ideal: 1080 }},
-         audio:true}, handleVideo, videoError);
-	}
-	 
-	function handleVideo(stream) {
-	    cam.src = window.URL.createObjectURL(stream);
-	}
 	 
 	function videoError(e) {
 	    // do something
 	}
 
 	function restart(){
+		started = false;
 		colors = [0,0,0,0];
 		uids = ["","","",""];
 
@@ -231,6 +246,8 @@
 		aPressedOther = false;
 		bPressed = false;
 		bPressedOther = false;
+
+		console.log("Game Restarted!");
 	}
 
 	function preLoadVideo(vidNumber) {
@@ -543,12 +560,14 @@
 		if(vidNumber == 2){
 			actualVid = 4;
 			videoPlayersFree[1] = 0;
+			videoPlayersFree[2] = 0;
 			preLoadVideo(5);
 			play(0);
 		}
 		else if(vidNumber == 3){
 			actualVid = 4;
 			videoPlayersFree[1] = 0;
+			videoPlayersFree[2] = 0;
 			preLoadVideo(5);
 			play(0);
 		}    	
@@ -690,7 +709,7 @@
 
 	document.addEventListener('keydown', function(event) {
 	    //Client 1 
-	    if(event.keyCode == 37) {
+	    if(event.keyCode == 39) {
 	        bPressed = false; 
 	        aPressed = true;
 	        logStatus();
@@ -698,7 +717,7 @@
 	        loadOverlay(actualVid);
 	        playNextVideo(actualVid);
 	    }
-	    else if(event.keyCode == 39) {
+	    else if(event.keyCode == 37) {
 	        aPressed = false;
 	        bPressed = true;
 	        logStatus();
