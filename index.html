@@ -170,14 +170,12 @@
 	var peer = new Peer('luth1', {host:"lutharpeerserver.herokuapp.com", secure:true, port:443, key: 'peerjs'});
 	var conn = peer.connect('luth2');
 
-	/*peer.on('connection', function(c) {
+	peer.on('connection', function(c) {
 		console.log("connection established!");
 		conn = peer.connect('luth2');
-	});*/
+	});
 
 	peer.on('connection', function(conn) {
-		conn.on('connection', function(){
-			console.log('connected!');
 			conn.on('data', function(data){
 				console.log("received :" + data);
 				if(data.toString() == "a"){
@@ -196,7 +194,6 @@
 					logStatus();
 					window.playNextVideo(window.actualVid);
 				}
-			})
 	  });
 	});
 
