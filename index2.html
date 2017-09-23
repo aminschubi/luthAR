@@ -168,33 +168,37 @@
 	var bPressed = false;
 	var bPressedOther = false;
 
-	var peer = new Peer('luth2', {host:"lutharpeerserver.herokuapp.com", secure:true, port:443, key: 'peerjs'}); 
+	var peer = new Peer('luth2', {host:"lutharpeerserver.herokuapp.com", secure:true, port:443, key: 'peerjs', config: {'iceServers': [
+                            { url: 'stun:stun.l.google.com:19302' }, // Pass in optional STUN and TURN server for maximum network compatibility
+                            { url: 'turn:numb.viagenie.ca:3478', credential: 'muazkh', username:'webrtc@live.com' },
+                            { url: 'turn:numb.viagenie.ca', credential: 'muazkh', username:'webrtc@live.com' },
+                            { url: 'turn:numb.viagenie.ca:3478', credential: 'peerjsdemo', username:'p.srikanta@gmail.com' },
+                            { url: 'turn:192.158.29.39:3478?transport=udp', credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=', username:'28224511:1379330808' },
+                            { url: 'turn:192.158.29.39:3478?transport=tcp', credential: 'JZEOEt2V3Qb0y27GRntt2u2PAYA=', username:'28224511:1379330808' }
+                        ]}}); 
 	var conn = peer.connect('luth1');
 
-	peer.on('connection', function(c) {
-		console.log("connection established!");
-	});
-
 	peer.on('connection', function(conn) {
-			conn.on('data', function(data){
-				console.log("received :" + data);
-				if(data.toString() == "a"){
-					console.log("A WAS PRESSED ON OTHER!");
-					window.aPressedOther = true;
-					window.bPressedOther = false;
-					loadOverlay(actualVid);
-					logStatus();
-					window.playNextVideo(window.actualVid);
-				}
-				else if(data.toString() == "b"){
-					console.log("B WAS PRESSED ON OTHER!");
-					window.aPressedOther = false;
-					window.bPressedOther = true;
-					loadOverlay(actualVid);
-					logStatus();
-					window.playNextVideo(window.actualVid);
-				}
-	  });
+		console.log("connection established!");
+		conn.on('data', function(data){
+			console.log("received :" + data);
+			if(data.toString() == "a"){
+				console.log("A WAS PRESSED ON OTHER!");
+				window.aPressedOther = true;
+				window.bPressedOther = false;
+				loadOverlay(actualVid);
+				logStatus();
+				window.playNextVideo(window.actualVid);
+			}
+			else if(data.toString() == "b"){
+				console.log("B WAS PRESSED ON OTHER!");
+				window.aPressedOther = false;
+				window.bPressedOther = true;
+				loadOverlay(actualVid);
+				logStatus();
+				window.playNextVideo(window.actualVid);
+			}
+	  	});
 	});
 
 	navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
