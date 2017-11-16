@@ -51,35 +51,35 @@ myState.create = function(){
     this.cKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.C);
 
     this.playerAttack = new Kiwi.GameObjects.TextField(this, "",20,20, "#ffffff");
-    this.playerAttack.fontFamily = "Wt-Position Mono";
+    this.playerAttack.fontFamily = "Arial";
     this.playerAttack.fontSize = 50;
     this.playerAttack.fontWeight = "bold";
     this.playerAttack.visible = false;
 
     this.bossAttack = new Kiwi.GameObjects.TextField(this, "",20,20, "#ff0000");
-    this.bossAttack.fontFamily = "Wt-Position Mono";
+    this.bossAttack.fontFamily = "Arial";
     this.bossAttack.fontSize = 50;
     this.bossAttack.fontWeight = "bold";
     this.bossAttack.visible = false;
 
     this.dodgeCD = new Kiwi.GameObjects.TextField(this, "",20,60, "#ffffff");
-    this.dodgeCD.fontFamily = "Wt-Position Mono";
+    this.dodgeCD.fontFamily = "Arial";
     this.dodgeCD.fontSize = 60;
     this.dodgeCD.fontWeight = "bold";
     this.dodgeCD.text = "Dodge-Cooldown:2/2 Seconds";
 
     this.hpP = new Kiwi.GameObjects.TextField(this, "",20,20, "#ffffff");
-    this.hpP.fontFamily = "Wt-Position Mono";
+    this.hpP.fontFamily = "Arial";
     this.hpP.fontSize = 60;
     this.hpP.fontWeight = "bold";
 
     this.hpB = new Kiwi.GameObjects.TextField(this, "",1920/2 - 200,20, "#c5f7f0");
-    this.hpB.fontFamily = "Wt-Position Mono";
+    this.hpB.fontFamily = "Arial";
     this.hpB.fontSize = 60;
     this.hpB.fontWeight = "bold";
 
     this.endTF2 = new Kiwi.GameObjects.TextField(this, "",1920/2 - 450,1080/2+400, "#ffffff");
-    this.endTF2.fontFamily = "Wt-Position Mono";
+    this.endTF2.fontFamily = "Arial";
     this.endTF2.fontSize = 120;
     this.endTF2.fontWeight = "bold";
 
