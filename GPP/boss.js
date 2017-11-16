@@ -7,8 +7,8 @@ var Boss = function(state, atlas, x, y){
     this.actualTime = Date.now();
     this.lastSpecial = Date.now();
 
-    this.hp = 25000;
-    this.maxHP = 25000;
+    this.hp = 10000;
+    this.maxHP = 10000;
 
     this.specialHit = false;
     this.relocate = true;
