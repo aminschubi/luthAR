@@ -9,6 +9,8 @@ myState.preload = function () {
     this.addImage("bg", "img/bg.png");
     this.addImage("gameOver", "img/go.png");
     this.addImage("gG", "img/gg.png");
+    this.addImage("rageBar", "img/rageBar.png");
+    this.addImage("rageBorder", "img/rageBorder.png");
     this.mode = 1;
 }
 
@@ -27,6 +29,8 @@ myState.create = function(){
     this.bg = new Kiwi.GameObjects.Sprite(this, this.textures.bg, 0,0);
     this.gameO = new Kiwi.GameObjects.Sprite(this, this.textures.gameOver, 0,0);
     this.gG = new Kiwi.GameObjects.Sprite(this, this.textures.gG, 0,0);
+    this.rageBar = new Kiwi.GameObjects.Sprite(this, this.textures.rageBar, 0,0);
+    this.rageBorder = new Kiwi.GameObjects.Sprite(this, this.textures.rageBorder, 0,0);
 
     this.player = new Player(this, this.textures.hammerSprite, 300, 300,2);
     this.player.transform.scale = 0.75;
@@ -51,35 +55,35 @@ myState.create = function(){
     this.cKey = this.game.input.keyboard.addKey(Kiwi.Input.Keycodes.C);
 
     this.playerAttack = new Kiwi.GameObjects.TextField(this, "",20,20, "#ffffff");
-    this.playerAttack.fontFamily = "Arial";
+    this.playerAttack.fontFamily = "Courier New";
     this.playerAttack.fontSize = 50;
     this.playerAttack.fontWeight = "bold";
     this.playerAttack.visible = false;
 
     this.bossAttack = new Kiwi.GameObjects.TextField(this, "",20,20, "#ff0000");
-    this.bossAttack.fontFamily = "Arial";
+    this.bossAttack.fontFamily = "Courier New";
     this.bossAttack.fontSize = 50;
     this.bossAttack.fontWeight = "bold";
     this.bossAttack.visible = false;
 
     this.dodgeCD = new Kiwi.GameObjects.TextField(this, "",20,60, "#ffffff");
-    this.dodgeCD.fontFamily = "Arial";
-    this.dodgeCD.fontSize = 60;
+    this.dodgeCD.fontFamily = "Courier New";
+    this.dodgeCD.fontSize = 40;
     this.dodgeCD.fontWeight = "bold";
     this.dodgeCD.text = "Dodge-Cooldown:2/2 Seconds";
 
     this.hpP = new Kiwi.GameObjects.TextField(this, "",20,20, "#ffffff");
-    this.hpP.fontFamily = "Arial";
-    this.hpP.fontSize = 60;
+    this.hpP.fontFamily = "Courier New";
+    this.hpP.fontSize = 40;
     this.hpP.fontWeight = "bold";
 
     this.hpB = new Kiwi.GameObjects.TextField(this, "",1920/2 - 200,20, "#c5f7f0");
-    this.hpB.fontFamily = "Arial";
-    this.hpB.fontSize = 60;
+    this.hpB.fontFamily = "Courier New";
+    this.hpB.fontSize = 40;
     this.hpB.fontWeight = "bold";
 
     this.endTF2 = new Kiwi.GameObjects.TextField(this, "",1920/2 - 450,1080/2+400, "#ffffff");
-    this.endTF2.fontFamily = "Arial";
+    this.endTF2.fontFamily = "Courier New";
     this.endTF2.fontSize = 120;
     this.endTF2.fontWeight = "bold";
 
