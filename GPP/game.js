@@ -52,7 +52,7 @@ myState.create = function(){
     this.boss.transform.scale = 1.5;
     this.boss.animation.add("idle", [0], 0.1, false);
     this.boss.animation.add("move", [1,2], 0.2, false);
-    this.boss.animation.add("attack", [0,3,4], 0.2, false);
+    this.boss.animation.add("attack", [0,13,4], 0.2, false);
     this.boss.animation.add("openClaws", [3,5], 0.3, false);
     this.boss.animation.add("chargeSP", [6,7,8], 0.5, false);
     this.boss.animation.add("discharge", [8,9,10,11,12], 0.1, false);
@@ -80,19 +80,19 @@ myState.create = function(){
     this.dodgeCD.fontFamily = "Courier New";
     this.dodgeCD.fontSize = 40;
     this.dodgeCD.fontWeight = "bold";
-    this.dodgeCD.text = "Dodge-Cooldown:2/2 Seconds";
+    this.dodgeCD.text = "Dodge-Cooldown: 0/10 Seconds";
 
     this.hpP = new Kiwi.GameObjects.TextField(this, "",20,20, "#ffffff");
     this.hpP.fontFamily = "Courier New";
     this.hpP.fontSize = 40;
     this.hpP.fontWeight = "bold";
 
-    this.hpB = new Kiwi.GameObjects.TextField(this, "",1920/2 - 200,20, "#c5f7f0");
+    this.hpB = new Kiwi.GameObjects.TextField(this, "",1920/2 - 200,20, "#f2cbc4");
     this.hpB.fontFamily = "Courier New";
     this.hpB.fontSize = 40;
     this.hpB.fontWeight = "bold";
 
-    this.rB = new Kiwi.GameObjects.TextField(this, "",1920/2 - 200,75, "#c5f7f0");
+    this.rB = new Kiwi.GameObjects.TextField(this, "",1920/2 - 200,75, "#f2cbc4");
     this.rB.fontFamily = "Courier New";
     this.rB.fontSize = 40;
     this.rB.fontWeight = "bold";
@@ -137,9 +137,9 @@ myState.updateHUD = function(){
     this.bossAttack.x = this.player.mid.x-20;
     this.bossAttack.y = this.player.mid.y-20;
     if(this.player.actualTime-this.player.dodgeClock < 10001)
-        this.dodgeCD.text = "Dodge-Cooldown:"+(Math.round(((this.player.actualTime-this.player.dodgeClock)/1000) * 100) / 100)+"/10 Seconds";
+        this.dodgeCD.text = "Dodge-Cooldown: "+(10-(Math.round(this.player.actualTime-this.player.dodgeClock)/1000).toFixed(0) + "/10 Seconds");
     else
-    this.dodgeCD.text = "Dodge-Cooldown:10/10 Seconds";
+    this.dodgeCD.text = "Dodge-Cooldown: 0/10 Seconds";
 }
 
 myState.checkEnd = function(){

@@ -27,7 +27,7 @@ var Boss = function(state, atlas, x, y){
         var b = this;
         var hpBefore = player.hp;
         state.bossAttack.text = "-20";
-        var timer = state.clock.createTimer( "checkDistance", 0.5 );
+        var timer = state.clock.createTimer( "checkDistance", 0.35 );
         timer.createTimerEvent( Kiwi.Time.TimerEvent.TIMER_STOP,
             function() {
 
@@ -41,7 +41,7 @@ var Boss = function(state, atlas, x, y){
                     difference = Math.sqrt(Math.pow(difference, 2));
 
 
-                if(Kiwi.Geom.Point.distanceBetween(b.mid, player.mid) <= b.height/2-20 && difference < 10 && player.hp == hpBefore && b.animation.currentCell == 4){
+                if(Kiwi.Geom.Point.distanceBetween(b.mid, player.mid) <= b.height/2-20 && difference < 10 && player.hp == hpBefore && b.animation.currentCell == 13){
                     player.hp -= 20;
                     state.bossAttack.visible = true;
                     this.attacking = false;
