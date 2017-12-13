@@ -180,7 +180,7 @@ var Boss = function(state, atlas, x, y){
                     this.rotation = Kiwi.Utils.GameMath.degreesToRadians(359);
 
                 if(Math.floor(Kiwi.Utils.GameMath.radiansToDegrees(this.rotation)) == this.angle){
-                    if(Kiwi.Geom.Point.distanceBetween(this.mid, player.mid) > this.height/2-100 && !this.animation.getAnimation("attack").isPlaying){
+                    if(Kiwi.Geom.Point.distanceBetween(this.mid, player.mid) > this.height/2-10 && !this.animation.getAnimation("attack").isPlaying){
                         this.moveTowardsEnemy();
                         if(!this.animation.getAnimation("move").isPlaying)
                             this.animation.play("move");
