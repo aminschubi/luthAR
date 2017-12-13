@@ -7,8 +7,9 @@ var Boss = function(state, atlas, x, y){
     this.actualTime = Date.now();
     this.lastSpecial = Date.now();
 
-    this.hp = 10000;
-    this.maxHP = 10000;
+    this.hp = 25000;
+    this.maxHP = 25000;
+    this.rage = 0;
 
     this.specialHit = false;
     this.relocate = true;
@@ -45,7 +46,7 @@ var Boss = function(state, atlas, x, y){
 
                 console.log((Kiwi.Geom.Point.distanceBetween(b.mid, player.mid) <= b.height/2-30)+";"+difference+";"+b.animation.currentCell+";"+(player.hp == hpBefore));
 
-                if(Kiwi.Geom.Point.distanceBetween(b.mid, player.mid) <= b.height/2-30 && difference < 10 && player.hp == hpBefore && b.animation.currentCell == 4){
+                if(Kiwi.Geom.Point.distanceBetween(b.mid, player.mid) <= b.height/2-10 && difference < 10 && player.hp == hpBefore && b.animation.currentCell == 4){
                     player.hp -= 20;
                     state.bossAttack.visible = true;
                     state.logFileText += ("PH: Boss-Special :"+b.special+", Damage: 20 | Time:"+(state.milliSecondsToHMinSec(Date.now()-state.startTime))+" | BossP: ("+Math.floor(b.mid.x)+","+Math.floor(b.mid.y)+"); PlayerP:("+Math.floor(player.mid.x)+","+Math.floor(player.mid.y)+")\r\n");
@@ -103,7 +104,7 @@ var Boss = function(state, atlas, x, y){
 
     Boss.prototype.moveTowardsEnemy = function(){
         var x = this.transform.x;
-        var y = this.transform.y + 2;
+        var y = this.transform.y + (2+3*(this.rage/100));
         var angle = this.rotation;
         var rotatedX = Math.cos(-angle) * (x - this.transform.x) - Math.sin(-angle) * (y - this.transform.y) + this.transform.x;
         var rotatedY = Math.sin(-angle) * (x - this.transform.x) - Math.cos(-angle) * (y - this.transform.y) + this.transform.y;
@@ -116,6 +117,22 @@ var Boss = function(state, atlas, x, y){
         Kiwi.GameObjects.Sprite.prototype.update.call(this);
         this.actualTime = Date.now();
         var boss = this;
+        
+        state.removeChild(state.rageBar, true);
+        state.rageBar = new Kiwi.Plugins.Primitives.Rectangle( {
+            state: state,
+            width: (this.rage/100)*481,
+            height: 39,
+            x: 1920/2 - 207,
+            y: 73
+        } );
+        state.addChild(state.rageBar);
+        console.log(this.rage);
+
+        if(this.rage > 0)
+            this.rage -= 0.025;
+
+        
         if(this.actualTime-this.lastSpecial >= this.specialCD){
             this.special = true;
             this.specialMove();
@@ -148,7 +165,7 @@ var Boss = function(state, atlas, x, y){
                     this.rotation = Kiwi.Utils.GameMath.degreesToRadians(360);
 
                 this.relocate = false;
-                var timer = state.clock.createTimer( "moveTimer", 1 );
+                var timer = state.clock.createTimer( "moveTimer", 1-0.2*(this.rage/100) );
                 timer.createTimerEvent( Kiwi.Time.TimerEvent.TIMER_STOP,
                     function() {
                         console.log( "Move!" );
@@ -163,7 +180,7 @@ var Boss = function(state, atlas, x, y){
                     this.rotation = Kiwi.Utils.GameMath.degreesToRadians(359);
 
                 if(Math.floor(Kiwi.Utils.GameMath.radiansToDegrees(this.rotation)) == this.angle){
-                    if(Kiwi.Geom.Point.distanceBetween(this.mid, player.mid) > this.height/2-40 && !this.animation.getAnimation("attack").isPlaying){
+                    if(Kiwi.Geom.Point.distanceBetween(this.mid, player.mid) > this.height/2-100 && !this.animation.getAnimation("attack").isPlaying){
                         this.moveTowardsEnemy();
                         if(!this.animation.getAnimation("move").isPlaying)
                             this.animation.play("move");
@@ -229,11 +246,11 @@ var Boss = function(state, atlas, x, y){
                 if(difference < 0)
                     difference = Math.sqrt(Math.pow(difference, 2));
                 console.log(difference + "," + Kiwi.Geom.Point.distanceBetween(this.mid, player.mid));
-                if( difference > 30 && Kiwi.Geom.Point.distanceBetween(this.mid, player.mid) < this.height/1.25 - 20){
+                if( difference > 30 && Kiwi.Geom.Point.distanceBetween(this.mid, player.mid) < this.height/1.25 - 10){
                     var timer = state.clock.createTimer( "removeDMG", 0.25 );
                     timer.createTimerEvent( Kiwi.Time.TimerEvent.TIMER_STOP,
                         function() {
-                            if( difference > 30 && Kiwi.Geom.Point.distanceBetween(b.mid, player.mid) < b.height/1.25 - 20){
+                            if( difference > 30 && Kiwi.Geom.Point.distanceBetween(b.mid, player.mid) < b.height/1.25 - 10){
                                 state.bossAttack.text = "-50!";
                                 player.hp -= 50;
                                 state.bossAttack.visible = true;

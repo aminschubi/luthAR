@@ -258,6 +258,12 @@ var Player = function(state, atlas, x, y, weaponType){
                 if( difference < 22.5 && state.boss.special == true){
                     console.log("collision");
                     state.boss.hp -= 500;
+                    if(state.boss.rage <= 100){
+                        if(state.boss.rage + 20 > 100)
+                            state.boss.rage = 100;
+                        else
+                            state.boss.rage += 25;
+                    }
                     state.playerAttack.text = "-500!";
                     state.logFileText += ("BH: Angle:"+Math.floor(difference)+", Boss-Special:"+state.boss.special+", Damage: 500 | Time:"+(state.milliSecondsToHMinSec(Date.now()-state.startTime))+" | BossP: ("+Math.floor(state.boss.mid.x)+","+Math.floor(state.boss.mid.y)+"); PlayerP:("+Math.floor(this.mid.x)+","+Math.floor(this.mid.y)+")\r\n");
                 }

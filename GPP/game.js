@@ -29,8 +29,15 @@ myState.create = function(){
     this.bg = new Kiwi.GameObjects.Sprite(this, this.textures.bg, 0,0);
     this.gameO = new Kiwi.GameObjects.Sprite(this, this.textures.gameOver, 0,0);
     this.gG = new Kiwi.GameObjects.Sprite(this, this.textures.gG, 0,0);
-    this.rageBar = new Kiwi.GameObjects.Sprite(this, this.textures.rageBar, 0,0);
-    this.rageBorder = new Kiwi.GameObjects.Sprite(this, this.textures.rageBorder, 0,0);
+    this.rageBar = new Kiwi.Plugins.Primitives.Rectangle( {
+        state: this,
+        width: 150,
+        height: 39,
+        //centerOnTransform = false,
+        x: 1920/2 - 207,
+        y: 73
+    } );
+    this.rageBorder = new Kiwi.GameObjects.Sprite(this, this.textures.rageBorder, 1920/2 - 220,60);
 
     this.player = new Player(this, this.textures.hammerSprite, 300, 300,2);
     this.player.transform.scale = 0.75;
@@ -92,6 +99,8 @@ myState.create = function(){
     this.addChild(this.player);
     this.addChild(this.hpP);
     this.addChild(this.hpB);
+    this.addChild(this.rageBar);
+    this.addChild(this.rageBorder);
     this.addChild(this.playerAttack);
     this.addChild(this.bossAttack);
     this.addChild(this.dodgeCD);
