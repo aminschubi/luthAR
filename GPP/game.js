@@ -11,7 +11,6 @@ myState.preload = function () {
     this.addImage("gG", "img/gg.png");
     this.addImage("rageBar", "img/rageBar.png");
     this.addImage("rageBorder", "img/rageBorder.png");
-    this.mode = 1;
 }
 
 myState.create = function(){
@@ -23,21 +22,25 @@ myState.create = function(){
     this.startTime = Date.now();
     this.endTime;
     this.logFileText = "";
+    this.ended = false;
 
     this.gameOver = false;
 
     this.bg = new Kiwi.GameObjects.Sprite(this, this.textures.bg, 0,0);
     this.gameO = new Kiwi.GameObjects.Sprite(this, this.textures.gameOver, 0,0);
+    this.gameO.scale=(0.5);
     this.gG = new Kiwi.GameObjects.Sprite(this, this.textures.gG, 0,0);
+    this.gG.scale=(0.5);
     this.rageBar = new Kiwi.Plugins.Primitives.Rectangle( {
         state: this,
         width: 150,
         height: 39,
         //centerOnTransform = false,
-        x: 1920/2 - 207,
-        y: 73
+        x: 1920/2 + 63,
+        y: 80,
+        color: [1,1,1]
     } );
-    this.rageBorder = new Kiwi.GameObjects.Sprite(this, this.textures.rageBorder, 1920/2 - 220,60);
+    this.rageBorder = new Kiwi.GameObjects.Sprite(this, this.textures.rageBorder, 1920/2 + 50,67);
 
     this.player = new Player(this, this.textures.hammerSprite, 300, 300,2);
     this.player.transform.scale = 0.75;
@@ -73,7 +76,7 @@ myState.create = function(){
     this.bossAttack.fontWeight = "bold";
     this.bossAttack.visible = false;
 
-    this.dodgeCD = new Kiwi.GameObjects.TextField(this, "",20,60, "#ffffff");
+    this.dodgeCD = new Kiwi.GameObjects.TextField(this, "",20,75, "#ffffff");
     this.dodgeCD.fontFamily = "Courier New";
     this.dodgeCD.fontSize = 40;
     this.dodgeCD.fontWeight = "bold";
@@ -89,9 +92,15 @@ myState.create = function(){
     this.hpB.fontSize = 40;
     this.hpB.fontWeight = "bold";
 
+    this.rB = new Kiwi.GameObjects.TextField(this, "",1920/2 - 200,75, "#c5f7f0");
+    this.rB.fontFamily = "Courier New";
+    this.rB.fontSize = 40;
+    this.rB.fontWeight = "bold";
+    this.rB.text = "Boss-Rage:";
+
     this.endTF2 = new Kiwi.GameObjects.TextField(this, "",1920/2 - 450,1080/2+400, "#ffffff");
     this.endTF2.fontFamily = "Courier New";
-    this.endTF2.fontSize = 120;
+    this.endTF2.fontSize = 80;
     this.endTF2.fontWeight = "bold";
 
     this.addChild(this.bg);
@@ -100,6 +109,7 @@ myState.create = function(){
     this.addChild(this.hpP);
     this.addChild(this.hpB);
     this.addChild(this.rageBar);
+    this.addChild(this.rB);
     this.addChild(this.rageBorder);
     this.addChild(this.playerAttack);
     this.addChild(this.bossAttack);
@@ -115,6 +125,7 @@ myState.update = function() {
            this.create();
            this.boss.clock.start();
            this.player.clock.start();
+           this.ended = false;
        }
 }
 
@@ -137,6 +148,7 @@ myState.checkEnd = function(){
         var timer = this.clock.createTimer("endGame", 0,5);
         timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,
             function(){
+                this.ended = true;
                 game.endTF2.text = "Press C to restart";
                 game.addChild(game.gameO);
                 game.addChild(game.endTF2);
@@ -148,10 +160,6 @@ myState.checkEnd = function(){
                 var outcome = ("Mode: "+game.mode+" (Mode 1: More Specials, Mode 2: Less Specials)\r\nOutcome: Loss \r\nTime: " + game.milliSecondsToHMinSec(game.endTime - game.startTime) + "\r\nRemaining Boss-HP: "+game.boss.hp+"\r\n");
                 var endFile = outcome + game.logFileText;
                 game.download("GPP_Log.txt", endFile);
-                if(game.mode == 1)
-                    game.mode = 2;
-                else
-                    game.mode = 1;
                 game.logFileText = "";
             }
         );
@@ -162,6 +170,7 @@ myState.checkEnd = function(){
         var timer = this.clock.createTimer("endGame", 0,5);
         timer.createTimerEvent(Kiwi.Time.TimerEvent.TIMER_STOP,
             function(){
+                this.ended = true;
                 game.endTF2.text = "Press C to restart";
                 game.addChild(game.gG);
                 game.addChild(game.endTF2);
@@ -173,10 +182,6 @@ myState.checkEnd = function(){
                 var outcome = ("Mode: "+game.mode+" (Mode 1: More Specials, Mode 2: Less Specials)\r\nOutcome: Win \r\nTime: " + game.milliSecondsToHMinSec(game.endTime - game.startTime) + "\r\nRemaining Player-HP: "+game.player.hp+"\r\n");
                 var endFile = outcome + game.logFileText;
                 game.download("GPP_Log.txt", endFile);
-                if(game.mode == 1)
-                    game.mode = 2;
-                else
-                    game.mode = 1;
                 game.logFileText = "";
             }
         );

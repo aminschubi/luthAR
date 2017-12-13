@@ -143,9 +143,9 @@ var Player = function(state, atlas, x, y, weaponType){
                 if(this.rotation != Kiwi.Utils.GameMath.degreesToRadians(180)){
                     this.rotation = Kiwi.Utils.GameMath.degreesToRadians(180);
                 }
-                if(!this.wouldCollide(0, 4) && this.mid.y+4.0*this.movespeedfactor < 1080-this.width/2){
-                    this.transform.y += 4.0*this.movespeedfactor;
-                    this.mid.y += 4.0*this.movespeedfactor;
+                if(!this.wouldCollide(0, 4) && this.mid.y+2.75*this.movespeedfactor < 1080-this.width/2){
+                    this.transform.y += 2.75*this.movespeedfactor;
+                    this.mid.y += 2.75*this.movespeedfactor;
                 }
             }
             //Down-Left
@@ -153,11 +153,11 @@ var Player = function(state, atlas, x, y, weaponType){
                 if(this.rotation != Kiwi.Utils.GameMath.degreesToRadians(225)){
                     this.rotation = Kiwi.Utils.GameMath.degreesToRadians(225);
                 }
-                if(!this.wouldCollide(-3, 3)  && this.mid.y+3.0*this.movespeedfactor < 1080-this.height/2 && this.mid.x - 3.0*this.movespeedfactor > 0+this.width/2){
-                    this.transform.y += 3.0*this.movespeedfactor;
-                    this.transform.x -= 3.0*this.movespeedfactor;
-                    this.mid.y += 3.0*this.movespeedfactor;
-                    this.mid.x -= 3.0*this.movespeedfactor;
+                if(!this.wouldCollide(-3, 3)  && this.mid.y+2.0625*this.movespeedfactor < 1080-this.height/2 && this.mid.x - 2.0625*this.movespeedfactor > 0+this.width/2){
+                    this.transform.y += 2.0625*this.movespeedfactor;
+                    this.transform.x -= 2.0625*this.movespeedfactor;
+                    this.mid.y += 2.0625*this.movespeedfactor;
+                    this.mid.x -= 2.0625*this.movespeedfactor;
                 }
             }
             //Down-Right
@@ -165,11 +165,11 @@ var Player = function(state, atlas, x, y, weaponType){
                 if(this.rotation != Kiwi.Utils.GameMath.degreesToRadians(135)){
                     this.rotation = Kiwi.Utils.GameMath.degreesToRadians(135);
                 }
-                if(!this.wouldCollide(3, 3) && this.mid.y+3.0*this.movespeedfactor < 1080-this.height/2 && this.mid.x + 3.0*this.movespeedfactor < 1920-this.width/2){
-                    this.transform.y += 3.0*this.movespeedfactor;
-                    this.transform.x += 3.0*this.movespeedfactor;
-                    this.mid.y += 3.0*this.movespeedfactor;
-                    this.mid.x += 3.0*this.movespeedfactor;
+                if(!this.wouldCollide(3, 3) && this.mid.y+2.0625*this.movespeedfactor < 1080-this.height/2 && this.mid.x + 2.0625*this.movespeedfactor < 1920-this.width/2){
+                    this.transform.y += 2.0625*this.movespeedfactor;
+                    this.transform.x += 2.0625*this.movespeedfactor;
+                    this.mid.y += 2.0625*this.movespeedfactor;
+                    this.mid.x += 2.0625*this.movespeedfactor;
                 }
             }
             //Nothing Up + Down
@@ -179,9 +179,9 @@ var Player = function(state, atlas, x, y, weaponType){
                 if(this.rotation != 0){
                     this.rotation = 0;
                 }
-                if(!this.wouldCollide(0, -4) && this.mid.y+4.0*this.movespeedfactor > 0+this.height/2){
-                    this.transform.y -= 4.0*this.movespeedfactor;
-                    this.mid.y -= 4.0*this.movespeedfactor;
+                if(!this.wouldCollide(0, -4) && this.mid.y+2.75*this.movespeedfactor > 0+this.height/2){
+                    this.transform.y -= 2.75*this.movespeedfactor;
+                    this.mid.y -= 2.75*this.movespeedfactor;
                 }
             }
             //Up-Left
@@ -189,11 +189,11 @@ var Player = function(state, atlas, x, y, weaponType){
                 if(this.rotation != Kiwi.Utils.GameMath.degreesToRadians(315)){
                     this.rotation = Kiwi.Utils.GameMath.degreesToRadians(315);
                 }
-                if(!this.wouldCollide(-3, -3) && this.mid.y-3.0*this.movespeedfactor > 0+this.height/2 && this.mid.x - 3.0*this.movespeedfactor > 0+this.width/2){
-                    this.transform.y -= 3.0*this.movespeedfactor;
-                    this.transform.x -= 3.0*this.movespeedfactor;
-                    this.mid.y -= 3.0*this.movespeedfactor;
-                    this.mid.x -= 3.0*this.movespeedfactor;
+                if(!this.wouldCollide(-3, -3) && this.mid.y-2.0625*this.movespeedfactor > 0+this.height/2 && this.mid.x - 2.0625*this.movespeedfactor > 0+this.width/2){
+                    this.transform.y -= 2.0625*this.movespeedfactor;
+                    this.transform.x -= 2.0625*this.movespeedfactor;
+                    this.mid.y -= 2.0625*this.movespeedfactor;
+                    this.mid.x -= 2.0625*this.movespeedfactor;
                 }
             }
             //Up-Right
@@ -201,11 +201,11 @@ var Player = function(state, atlas, x, y, weaponType){
                 if(this.rotation != Kiwi.Utils.GameMath.degreesToRadians(45)){
                     this.rotation = Kiwi.Utils.GameMath.degreesToRadians(45);
                 }
-                if(!this.wouldCollide(3, -3)&& this.mid.y-3.0*this.movespeedfactor > 0+this.height/2 && this.mid.x + 3.0*this.movespeedfactor < 1920-this.width/2){
-                    this.transform.y -= 3.0*this.movespeedfactor;
-                    this.transform.x += 3.0*this.movespeedfactor;
-                    this.mid.y -= 3.0*this.movespeedfactor;
-                    this.mid.x += 3.0*this.movespeedfactor;
+                if(!this.wouldCollide(3, -3)&& this.mid.y-2.0625*this.movespeedfactor > 0+this.height/2 && this.mid.x + 2.0625*this.movespeedfactor < 1920-this.width/2){
+                    this.transform.y -= 2.0625*this.movespeedfactor;
+                    this.transform.x += 2.0625*this.movespeedfactor;
+                    this.mid.y -= 2.0625*this.movespeedfactor;
+                    this.mid.x += 2.0625*this.movespeedfactor;
                 }
             }
             //Right
@@ -213,9 +213,9 @@ var Player = function(state, atlas, x, y, weaponType){
                 if(this.rotation != Kiwi.Utils.GameMath.degreesToRadians(90)){
                     this.rotation = Kiwi.Utils.GameMath.degreesToRadians(90);
                 }
-                if(!this.wouldCollide(4, 0) && this.mid.x +4.0*this.movespeedfactor < 1920-this.width/2){
-                    this.transform.x += 4.0*this.movespeedfactor;
-                    this.mid.x += 4.0*this.movespeedfactor;
+                if(!this.wouldCollide(4, 0) && this.mid.x +2.75*this.movespeedfactor < 1920-this.width/2){
+                    this.transform.x += 2.75*this.movespeedfactor;
+                    this.mid.x += 2.75*this.movespeedfactor;
                 }
             }
             //Left
@@ -223,9 +223,9 @@ var Player = function(state, atlas, x, y, weaponType){
                 if(this.rotation != Kiwi.Utils.GameMath.degreesToRadians(270)){
                     this.rotation = Kiwi.Utils.GameMath.degreesToRadians(270);
                 }
-                if(!this.wouldCollide(-4, 0) && this.mid.x - 4.0*this.movespeedfactor > 0+this.width/2){
-                    this.transform.x -= 4.0*this.movespeedfactor;
-                    this.mid.x -= 4.0*this.movespeedfactor;
+                if(!this.wouldCollide(-4, 0) && this.mid.x - 2.75*this.movespeedfactor > 0+this.width/2){
+                    this.transform.x -= 2.75*this.movespeedfactor;
+                    this.mid.x -= 2.75*this.movespeedfactor;
                 }
             }
             //Nothing Left + Right
@@ -255,15 +255,9 @@ var Player = function(state, atlas, x, y, weaponType){
                 
                 if(difference < 0)
                     difference = Math.sqrt(Math.pow(difference, 2));
-                if( difference < 22.5 && state.boss.special == true){
+                if( difference < 22.75 && state.boss.special == true){
                     console.log("collision");
                     state.boss.hp -= 500;
-                    if(state.boss.rage <= 100){
-                        if(state.boss.rage + 20 > 100)
-                            state.boss.rage = 100;
-                        else
-                            state.boss.rage += 25;
-                    }
                     state.playerAttack.text = "-500!";
                     state.logFileText += ("BH: Angle:"+Math.floor(difference)+", Boss-Special:"+state.boss.special+", Damage: 500 | Time:"+(state.milliSecondsToHMinSec(Date.now()-state.startTime))+" | BossP: ("+Math.floor(state.boss.mid.x)+","+Math.floor(state.boss.mid.y)+"); PlayerP:("+Math.floor(this.mid.x)+","+Math.floor(this.mid.y)+")\r\n");
                 }
@@ -278,6 +272,12 @@ var Player = function(state, atlas, x, y, weaponType){
                 timer.createTimerEvent( Kiwi.Time.TimerEvent.TIMER_STOP,
                     function() {
                         state.playerAttack.visible = true;
+                        if(state.boss.rage <= 100){
+                            if(state.boss.rage + 20 > 100)
+                                state.boss.rage = 100;
+                            else
+                                state.boss.rage += 25;
+                        }
                         state.clock.removeTimer(timer);
                     }
                 );

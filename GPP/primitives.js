@@ -817,7 +817,7 @@ Kiwi.Plugins.Primitives.Polygon.prototype.parseParams = function( params ) {
 		}
 
 	} else {
-		this.color = [ 0.5, 0.5, 0.5 ];
+		this.color = [ 1,0, 0 ];
 	}
 
 	/**
