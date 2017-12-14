@@ -80,7 +80,7 @@ myState.create = function(){
     this.dodgeCD.fontFamily = "Courier New";
     this.dodgeCD.fontSize = 40;
     this.dodgeCD.fontWeight = "bold";
-    this.dodgeCD.text = "Dodge-Cooldown: 0/10 Seconds";
+    this.dodgeCD.text = "Dodge-Cooldown: 0/5 Seconds";
 
     this.hpP = new Kiwi.GameObjects.TextField(this, "",20,20, "#ffffff");
     this.hpP.fontFamily = "Courier New";
@@ -136,10 +136,10 @@ myState.updateHUD = function(){
     this.playerAttack.y = this.calcRotationPoint().y;
     this.bossAttack.x = this.player.mid.x-20;
     this.bossAttack.y = this.player.mid.y-20;
-    if(this.player.actualTime-this.player.dodgeClock < 10001)
-        this.dodgeCD.text = "Dodge-Cooldown: "+(10-(Math.round(this.player.actualTime-this.player.dodgeClock)/1000).toFixed(0) + "/10 Seconds");
+    if(this.player.actualTime-this.player.dodgeClock < 5001)
+        this.dodgeCD.text = "Dodge-Cooldown: "+(5-(Math.round(this.player.actualTime-this.player.dodgeClock)/1000).toFixed(0) + "/5 Seconds");
     else
-    this.dodgeCD.text = "Dodge-Cooldown: 0/10 Seconds";
+    this.dodgeCD.text = "Dodge-Cooldown: 0/5 Seconds";
 }
 
 myState.checkEnd = function(){
@@ -267,5 +267,4 @@ myState.calcRotationPoint = function(){
 
 myGame.states.addState(myState);
 myGame.states.switchState("myState");
-
 
