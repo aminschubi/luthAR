@@ -1,7 +1,7 @@
 var Player = function(state, atlas, x, y, weaponType){
     Kiwi.GameObjects.Sprite.call(this,state, atlas, x, y, [enableInput=false]);
 
-    this.dodgeClock = Date.now()-10000;
+    this.dodgeClock = Date.now()-5000;
     this.actualTime = Date.now();
 
     this.maxHP = 100;
@@ -101,7 +101,7 @@ var Player = function(state, atlas, x, y, weaponType){
         );
 
         this.dodgeClock = Date.now();
-        var dodgeTimer = state.clock.createTimer( "dodgeCD", 10 );
+        var dodgeTimer = state.clock.createTimer( "dodgeCD", 5 );
         dodgeTimer.createTimerEvent( Kiwi.Time.TimerEvent.TIMER_STOP,
             function() {
                 console.log( "Dodge!" );
