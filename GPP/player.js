@@ -259,6 +259,12 @@ var Player = function(state, atlas, x, y, weaponType){
                     console.log("collision");
                     state.boss.hp -= 500;
                     state.playerAttack.text = "-500!";
+                    if(state.boss.rage <= 100){
+                        if(state.boss.rage + 20 > 100)
+                            state.boss.rage = 100;
+                        else
+                            state.boss.rage += 25;
+                    }
                     state.logFileText += ("BH: Angle:"+Math.floor(difference)+", Boss-Special:"+state.boss.special+", Damage: 500 | Time:"+(state.milliSecondsToHMinSec(Date.now()-state.startTime))+" | BossP: ("+Math.floor(state.boss.mid.x)+","+Math.floor(state.boss.mid.y)+"); PlayerP:("+Math.floor(this.mid.x)+","+Math.floor(this.mid.y)+")\r\n");
                 }
                 else{
@@ -272,12 +278,6 @@ var Player = function(state, atlas, x, y, weaponType){
                 timer.createTimerEvent( Kiwi.Time.TimerEvent.TIMER_STOP,
                     function() {
                         state.playerAttack.visible = true;
-                        if(state.boss.rage <= 100){
-                            if(state.boss.rage + 20 > 100)
-                                state.boss.rage = 100;
-                            else
-                                state.boss.rage += 25;
-                        }
                         state.clock.removeTimer(timer);
                     }
                 );
